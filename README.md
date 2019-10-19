@@ -1,3 +1,3 @@
 # Reddit
 
-A unnamed reddit app.
+A unnamed reddit app powered by Flutter.
