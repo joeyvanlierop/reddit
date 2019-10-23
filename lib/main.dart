@@ -1,20 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:reddit/themes/theme.dart';
 
 import 'posts/post.dart';
-import 'themes/theme.dart';
 
 void main() => runApp(MyApp());
 
-List posts = [
-  "images/thumb0.jpg",
-  "images/thumb1.jpg",
-  "images/thumb2.jpg",
-];
+List posts = [];
 
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return new MaterialApp(
+    return MaterialApp(
       theme: darkTheme,
       home: Scaffold(
         appBar: AppBar(

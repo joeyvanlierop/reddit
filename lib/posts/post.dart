@@ -1,47 +1,36 @@
 import 'package:flutter/material.dart';
+import 'package:reddit/posts/post_data.dart';
 import 'package:reddit/posts/post_text.dart';
 import 'package:reddit/posts/post_thumbnail.dart';
 
 class Post extends StatelessWidget {
-  final String imagePath;
-  final String title;
-  final String subreddit;
-  final int upvotes;
-  final int comments;
-  final int age;
+  final PostData postData;
 
   const Post({
     Key key,
-    this.imagePath,
-    @required this.title,
-    @required this.subreddit,
-    @required this.upvotes,
-    @required this.comments,
-    @required this.age,
+    @required this.postData,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        print("Post");
+      },
       child: Padding(
         padding: EdgeInsets.all(16.0),
         child: Row(
           children: <Widget>[
             Expanded(
-              child: PostContent(
-                title: this.title,
-                subreddit: this.subreddit,
-                upvotes: this.upvotes,
-                comments: this.comments,
-                age: this.age,
+              child: PostText(
+                postData: this.postData,
               ),
             ),
             SizedBox(
               width: 16.0,
             ),
             PostImage(
-              this.imagePath,
+              postData: this.postData,
             ),
           ],
         ),
@@ -92,13 +81,7 @@ class PostList extends StatelessWidget {
       itemCount: posts.length,
       itemBuilder: (context, index) {
         return Post(
-          imagePath: posts[index],
-          title:
-              "This is the best photo I have ever taken... it's all downhere from here folks!",
-          subreddit: "Aww",
-          upvotes: 12016,
-          comments: 101,
-          age: 2,
+          postData: posts[index],
         );
       },
       separatorBuilder: (context, index) {

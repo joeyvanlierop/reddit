@@ -1,57 +1,40 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:reddit/posts/post_data.dart';
 
-final double contentMetaItemsSpacing = 8.0;
-final double contentMetaItemsIconSpacing = 2.0;
-final NumberFormat upvotesFormat = new NumberFormat.compact();
+final double subtitleItemSpacing = 12.0;
+final double subtitleIconSpacing = 2.0;
+final NumberFormat scoreFormat = new NumberFormat.compact();
 
-class PostContent extends StatelessWidget {
-  const PostContent({
+class PostText extends StatelessWidget {
+  final PostData postData;
+
+  const PostText({
     Key key,
-    this.title,
-    this.subreddit,
-    this.upvotes,
-    this.comments,
-    this.age,
+    @required this.postData,
   }) : super(key: key);
-
-  final String title;
-  final String subreddit;
-  final int upvotes;
-  final int comments;
-  final int age;
 
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        PostContentTitle(
-          title: this.title,
-          style: TextStyle(
-            fontWeight: FontWeight.w700,
-          ),
+        PostTitle(
+          title: this.postData.title,
         ),
         SizedBox(
           height: 8.0,
         ),
-        PostContentMeta(
-          subreddit: this.subreddit,
-          upvotes: this.upvotes,
-          comments: this.comments,
-          age: this.age,
-          style: TextStyle(
-            fontSize: 13,
-            fontWeight: FontWeight.w500,
-          ),
+        PostSubtitle(
+          postData: this.postData,
         ),
       ],
     );
   }
 }
 
-class PostContentTitle extends StatelessWidget {
-  const PostContentTitle({
+class PostTitle extends StatelessWidget {
+  const PostTitle({
     Key key,
     @required this.title,
     this.style,
@@ -62,52 +45,47 @@ class PostContentTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(this.title, style: this.style);
+    return Text(this.title,
+        style: this.style ?? Theme.of(context).textTheme.subhead);
   }
 }
 
-class PostContentMeta extends StatelessWidget {
-  const PostContentMeta({
+class PostSubtitle extends StatelessWidget {
+  final PostData postData;
+  final TextStyle style;
+
+  const PostSubtitle({
     Key key,
-    @required this.subreddit,
-    @required this.upvotes,
-    @required this.comments,
-    @required this.age,
+    @required this.postData,
     this.style,
   }) : super(key: key);
-
-  final String subreddit;
-  final int upvotes;
-  final int comments;
-  final int age;
-  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
     return Wrap(
-      spacing: contentMetaItemsSpacing,
+      spacing: subtitleItemSpacing,
       runSpacing: 4.0,
       children: <Widget>[
-        PostContentMetaItem(
-          text: this.subreddit,
-          style: this.style.copyWith(fontWeight: FontWeight.w600),
+        PostSubtitleItem(
+          text: this.postData.subreddit,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle
+              .copyWith(fontWeight: FontWeight.w500),
         ),
         Wrap(
-          spacing: contentMetaItemsSpacing,
+          spacing: subtitleItemSpacing,
           children: <Widget>[
-            PostContentMetaItem(
-              text: upvotesFormat.format(upvotes),
-              style: this.style,
+            PostSubtitleItem(
+              text: scoreFormat.format(this.postData.score),
               icon: Icons.arrow_upward,
             ),
-            PostContentMetaItem(
-              text: this.comments.toString(),
-              style: this.style,
+            PostSubtitleItem(
+              text: this.postData.comments.toString(),
               icon: Icons.chat_bubble_outline,
             ),
-            PostContentMetaItem(
-              text: this.age.toString(),
-              style: this.style,
+            PostSubtitleItem(
+              text: this.postData.age.toString(),
               icon: Icons.access_time,
             ),
           ],
@@ -117,12 +95,12 @@ class PostContentMeta extends StatelessWidget {
   }
 }
 
-class PostContentMetaItem extends StatelessWidget {
+class PostSubtitleItem extends StatelessWidget {
   final String text;
   final TextStyle style;
   final IconData icon;
 
-  const PostContentMetaItem({
+  const PostSubtitleItem({
     Key key,
     @required this.text,
     this.style,
@@ -134,17 +112,17 @@ class PostContentMetaItem extends StatelessWidget {
     return Container(
       child: Wrap(
         crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: contentMetaItemsIconSpacing,
+        spacing: subtitleIconSpacing,
         children: <Widget>[
           if (this.icon != null)
             Icon(
               this.icon,
-              size: this.style.fontSize,
-              color: this.style.color,
+              size: this.style ?? Theme.of(context).textTheme.subtitle.fontSize,
+              color: this.style ?? Theme.of(context).textTheme.subtitle.color,
             ),
           Text(
             this.text,
-            style: this.style,
+            style: this.style ?? Theme.of(context).textTheme.subtitle,
           ),
         ],
       ),
