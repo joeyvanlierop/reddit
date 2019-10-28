@@ -1,13 +1,21 @@
 import 'package:flutter/material.dart';
 
 final lightTheme = ThemeData(
-  splashColor: Colors.blueAccent.withOpacity(0.15),
+  splashColor: Colors.grey.shade400.withOpacity(0.15),
   textTheme: TextTheme(
-      title: TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
+      title: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
+      subhead: TextStyle(
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+          color: Colors.grey.shade900),
+      subtitle: TextStyle(
+          fontWeight: FontWeight.w400,
+          fontSize: 12.0,
+          color: Colors.grey.shade600),
       body1: TextStyle(fontSize: 16.0),
-      body2: TextStyle(fontSize: 16.0, color: Colors.grey[800]),
+      body2: TextStyle(fontSize: 16.0, color: Colors.grey[200]),
       button: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
-      caption: TextStyle(fontSize: 16.0, color: Colors.black.withOpacity(0.5))),
+      caption: TextStyle(fontSize: 16.0, color: Colors.white.withOpacity(0.5))),
   accentColor: Colors.blueAccent,
   accentColorBrightness: Brightness.dark,
   backgroundColor: Colors.grey[200],
@@ -35,7 +43,7 @@ final lightTheme = ThemeData(
       shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(4.0),
           side: BorderSide(style: BorderStyle.none))),
-  dividerColor: Colors.transparent,
+//  dividerColor: Colors.transparent,
   errorColor: Colors.red[400],
   inputDecorationTheme: InputDecorationTheme(
     border: UnderlineInputBorder(),
@@ -45,11 +53,11 @@ final lightTheme = ThemeData(
     filled: false,
   ),
   indicatorColor: Colors.blueAccent,
-  primaryColor: Colors.blueAccent,
+  primaryColor: Colors.grey.shade200,
   primaryColorBrightness: Brightness.light,
   primaryColorDark: Colors.blueAccent[400],
   primaryColorLight: Colors.blueAccent[100],
-  scaffoldBackgroundColor: Colors.white,
+  scaffoldBackgroundColor: Colors.grey.shade100,
   selectedRowColor: Colors.grey[200],
   sliderTheme: SliderThemeData(
       activeTrackColor: Colors.blueAccent,
@@ -99,13 +107,13 @@ final darkTheme = ThemeData(
   textTheme: TextTheme(
       title: TextStyle(fontWeight: FontWeight.bold, fontSize: 18.0),
       subhead: TextStyle(
-          fontWeight: FontWeight.w400,
-          fontSize: 17.0,
-          color: Colors.grey.shade400),
+          fontWeight: FontWeight.w500,
+          fontSize: 16.0,
+          color: Colors.grey.shade200),
       subtitle: TextStyle(
-          fontWeight: FontWeight.w300,
-          fontSize: 13.0,
-          color: Colors.grey.shade700),
+          fontWeight: FontWeight.w400,
+          fontSize: 12.0,
+          color: Colors.grey.shade600),
       body1: TextStyle(fontSize: 16.0),
       body2: TextStyle(fontSize: 16.0, color: Colors.grey[200]),
       button: TextStyle(fontSize: 14.0, fontWeight: FontWeight.bold),
@@ -147,11 +155,11 @@ final darkTheme = ThemeData(
     filled: false,
   ),
   indicatorColor: Colors.blueAccent,
-  primaryColor: Color.fromARGB(255, 30, 30, 34),
+  primaryColor: Color.fromARGB(255, 22, 22, 24),
   primaryColorBrightness: Brightness.dark,
   primaryColorDark: Colors.blueAccent[400],
   primaryColorLight: Colors.blueAccent[100],
-  scaffoldBackgroundColor: Color.fromARGB(255, 26, 26, 30),
+  scaffoldBackgroundColor: Color.fromARGB(255, 20, 20, 22),
   selectedRowColor: Colors.grey[800],
   sliderTheme: SliderThemeData(
     activeTrackColor: Colors.blueAccent,
@@ -173,7 +181,6 @@ final darkTheme = ThemeData(
         TextStyle(fontWeight: FontWeight.bold, fontSize: 14.0),
   ),
   splashFactory: InkRipple.splashFactory,
-  fontFamily: 'Manrope',
   tabBarTheme: TabBarTheme(
       indicator: BoxDecoration(
         border: Border(
