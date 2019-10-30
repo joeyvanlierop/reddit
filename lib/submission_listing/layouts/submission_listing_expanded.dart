@@ -1,16 +1,19 @@
 import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
 import 'package:reddit/submission_listing/components/submission_listing_actions.dart';
+import 'package:reddit/submission_listing/components/submission_listing_flair.dart';
 import 'package:reddit/submission_listing/components/submission_listing_subtitle.dart';
 import 'package:reddit/submission_listing/components/submission_listing_thumbnail.dart';
 import 'package:reddit/submission_listing/components/submission_listing_title.dart';
 
 class SubmissionListingExpanded extends StatelessWidget {
   final Submission submission;
+  final double spacing;
 
   const SubmissionListingExpanded({
     Key key,
     @required this.submission,
+    this.spacing,
   }) : super(key: key);
 
   @override
@@ -25,44 +28,41 @@ class SubmissionListingExpanded extends StatelessWidget {
             ),
           ),
           Container(
-            padding: EdgeInsets.all(15.0),
-            child: Wrap(
-              runSpacing: 15.0,
+            padding: EdgeInsets.all(16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SubmissionListingTitle(
                   submission: this.submission,
+                  padding: EdgeInsets.only(bottom: this.spacing ?? 0),
+                ),
+                SubmissionListingTitleFlair(
+                  submission: this.submission,
+                  margin: EdgeInsets.symmetric(vertical: this.spacing ?? 0),
+                  padding: EdgeInsets.all(4.0),
+                  borderRadius: BorderRadius.circular(5.0),
+                  color: Colors.grey.withOpacity(0.1),
                 ),
                 SubmissionListingThumbnail(
                   submission: this.submission,
+                  targetWidth: MediaQuery.of(context).size.width,
                   borderRadius: BorderRadius.circular(10.0),
+                  padding: EdgeInsets.symmetric(vertical: this.spacing ?? 0),
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: <Widget>[
-                    SubmissionListingSubtitle(
-                      submission: this.submission,
-                      direction: Axis.vertical,
-                    ),
-                    SubmissionListingActions(
-                      icons: [
-                        new IconButton(
-                          icon: new Icon(Icons.arrow_upward),
-                          onPressed: () => print('Upvote'),
-                          color: Theme.of(context).textTheme.subtitle.color,
-                        ),
-                        new IconButton(
-                          icon: new Icon(Icons.arrow_downward),
-                          onPressed: () => print('Downvote'),
-                          color: Theme.of(context).textTheme.subtitle.color,
-                        ),
-                        new IconButton(
-                          icon: new Icon(Icons.more_vert),
-                          onPressed: () => print('More'),
-                          color: Theme.of(context).textTheme.subtitle.color,
-                        ),
-                      ],
-                    ),
-                  ],
+                Padding(
+                  padding: EdgeInsets.only(top: this.spacing ?? 0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: <Widget>[
+                      SubmissionListingSubtitle(
+                        submission: this.submission,
+                        direction: Axis.vertical,
+                      ),
+                      SubmissionListingActionButtons(
+                        submission: this.submission,
+                      ),
+                    ],
+                  ),
                 ),
               ],
             ),

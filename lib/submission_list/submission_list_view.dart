@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit/submission_list/submission_list_bloc.dart';
+import 'package:reddit/submission_list/submission_list_state.dart';
 import 'package:reddit/submission_listing/layouts/submission_listing_compact.dart';
 
 class SubmissionListView extends StatefulWidget {
@@ -10,7 +11,7 @@ class SubmissionListView extends StatefulWidget {
 
 class _SubmissionListViewState extends State<SubmissionListView> {
   final ScrollController _scrollController = ScrollController();
-  final double _scrollThreshold = 3500.0;
+  final double _scrollThreshold = 5000.0;
   SubmissionListBloc _listBloc;
 
   @override
@@ -37,26 +38,29 @@ class _SubmissionListViewState extends State<SubmissionListView> {
           );
         } else if (state is ListUninitialized) {
           return Center(
-            child: CircularProgressIndicator(),
+            child: LoadingIndicator(),
           );
         } else if (state is ListLoaded) {
           return ListView.separated(
-//            cacheExtent: 3000.0,
+            padding: EdgeInsets.all(0.0),
+            cacheExtent: 3000.0,
+            controller: _scrollController,
             itemCount: state.outOfSubmissions
                 ? state.submissions.length
                 : state.submissions.length + 1,
-            controller: _scrollController,
             itemBuilder: (BuildContext context, int index) {
               return index >= state.submissions.length
-                  ? BottomLoader()
+                  ? LoadingIndicator()
                   : SubmissionListingCompact(
-                      submission: state.submissions[index]);
+                      submission: state.submissions[index],
+                      spacing: 4.0,
+                    );
             },
             separatorBuilder: (context, index) {
-//              return ListSeparator(
-//                thickness: 0.75,
-//                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//              );
+              return ListSeparator(
+                thickness: 0.75,
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              );
               return Padding(
                 padding: EdgeInsets.symmetric(vertical: 10.0),
               );
@@ -74,7 +78,6 @@ class _SubmissionListViewState extends State<SubmissionListView> {
     final currentScroll = _scrollController.position.pixels;
 
     if (maxScroll - currentScroll <= _scrollThreshold) {
-      print((maxScroll - currentScroll).toString());
       _listBloc.add(Fetch());
     }
   }
@@ -115,7 +118,7 @@ class ListSeparator extends StatelessWidget {
   }
 }
 
-class BottomLoader extends StatelessWidget {
+class LoadingIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(

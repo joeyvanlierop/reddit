@@ -1,15 +1,18 @@
 import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
+import 'package:reddit/submission_listing/components/submission_listing_flair.dart';
 import 'package:reddit/submission_listing/components/submission_listing_subtitle.dart';
 import 'package:reddit/submission_listing/components/submission_listing_thumbnail.dart';
 import 'package:reddit/submission_listing/components/submission_listing_title.dart';
 
 class SubmissionListingCompact extends StatelessWidget {
   final Submission submission;
+  final double spacing;
 
   const SubmissionListingCompact({
     Key key,
     @required this.submission,
+    this.spacing,
   }) : super(key: key);
 
   @override
@@ -35,12 +38,19 @@ class SubmissionListingCompact extends StatelessWidget {
                     children: <Widget>[
                       SubmissionListingTitle(
                         submission: this.submission,
+                        padding: EdgeInsets.only(bottom: this.spacing ?? 0),
                       ),
-                      SizedBox(
-                        height: 8.0,
+                      SubmissionListingTitleFlair(
+                        submission: this.submission,
+                        margin:
+                            EdgeInsets.symmetric(vertical: this.spacing ?? 0),
+                        padding: EdgeInsets.all(4.0),
+                        borderRadius: BorderRadius.circular(5.0),
+                        color: Colors.grey.withOpacity(0.1),
                       ),
                       SubmissionListingSubtitle(
                         submission: this.submission,
+                        padding: EdgeInsets.only(top: this.spacing ?? 0),
                       ),
                     ],
                   ),
@@ -50,6 +60,7 @@ class SubmissionListingCompact extends StatelessWidget {
                 ),
                 SubmissionListingThumbnail(
                   submission: this.submission,
+                  targetWidth: 70.0,
                   width: 70.0,
                   height: 70.0,
                   borderRadius: BorderRadius.circular(7.0),

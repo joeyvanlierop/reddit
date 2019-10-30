@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class SubmissionListingTitle extends StatelessWidget {
   final Submission submission;
   final EdgeInsets padding;
+  final double spacing;
   final TextStyle style;
 
   const SubmissionListingTitle({
     Key key,
     @required this.submission,
     this.style,
+    this.spacing,
     this.padding,
   }) : super(key: key);
 
@@ -20,13 +22,13 @@ class SubmissionListingTitle extends StatelessWidget {
         padding: this.padding ?? EdgeInsets.zero,
         child: Text(
           this.submission.title,
-          style: stylizeTitle(context),
+          style: _stylizeTitle(context),
         ),
       ),
     );
   }
 
-  TextStyle stylizeTitle(BuildContext context) {
+  TextStyle _stylizeTitle(BuildContext context) {
     if (this.submission.stickied) {
       return this.style != null
           ? this.style.copyWith(color: Colors.green)

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit/submission_list/submission_list_bloc.dart';
 import 'package:reddit/submission_list/submission_list_event.dart';
-import 'package:reddit/submission_list/submission_list_view.dart';
 import 'package:reddit/themes/theme.dart';
 
 void main() => runApp(App());
@@ -15,47 +16,21 @@ class App extends StatelessWidget {
     return MaterialApp(
       theme: darkTheme,
       home: Scaffold(
-        /*appBar: AppBar(
+        appBar: AppBar(
           title: Center(
             child: Text(
-              "Reddit",
+              'Test',
               style: TextStyle(
                 fontWeight: FontWeight.w700,
               ),
             ),
           ),
-        ),*/
-        body: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              floating: false,
-              pinned: true,
-              snap: false,
-              expandedHeight: 200.0,
-              title: Center(
-                child: Text(
-                  "Reddit",
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-            SliverFillRemaining(
-              child: BlocProvider(
-                builder: (context) =>
-                    SubmissionListBloc(subreddit: 'all', limit: 15)
-                      ..add(Fetch()),
-                child: SubmissionListView(),
-              ),
-            ),
-          ],
         ),
-        /*body: BlocProvider(
+        body: BlocProvider(
           builder: (context) =>
-              SubmissionListBloc(subreddit: 'all', limit: 15)..add(Fetch()),
+              SubmissionListBloc(subreddit: 'popular', limit: 25)..add(Fetch()),
           child: SubmissionListView(),
-        ),*/
+        ),
       ),
     );
   }

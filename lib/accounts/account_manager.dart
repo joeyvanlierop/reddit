@@ -1,6 +1,5 @@
 import 'package:draw/draw.dart';
 import 'package:reddit/accounts/account.dart';
-import 'package:reddit/accounts/account_database.dart';
 
 import 'account.dart';
 
@@ -27,7 +26,6 @@ final List<String> scope = [
 //}
 class AccountManager {
   static AccountManager _singleton;
-  AccountDatabase _database;
   Account _currentAccount;
 
   static AccountManager getInstance() {
@@ -84,7 +82,7 @@ class AccountManager {
       redirectUri: Uri.parse('http://localhost:8080'),
     );
 
-    final auth_url = reddit.auth.url(scope, 'flutter');
+//    final authUrl = reddit.auth.url(scope, 'flutter');
 
     await reddit.auth.authorize('kf5rUppgly6EV4BjIdMe1b--Oaw');
 

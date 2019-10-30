@@ -29,8 +29,8 @@ class SubmissionListBloc
     Stream<SubmissionListState> Function(SubmissionListEvent event) next,
   ) {
     return super.transformEvents(
-      (events as Observable<SubmissionListEvent>).debounceTime(
-        Duration(milliseconds: 250),
+      (events as Observable<SubmissionListEvent>).throttleTime(
+        Duration(seconds: 1),
       ),
       next,
     );
@@ -45,6 +45,7 @@ class SubmissionListBloc
     final currentState = state;
 
     if (event is Fetch) {
+      print('Received fetch...');
       if (!_outOfSubmissions(currentState)) {
         if (currentState is ListUninitialized) {
           final List<Submission> submissions = await _fetchSubmissions();
@@ -53,6 +54,7 @@ class SubmissionListBloc
             outOfSubmissions: false,
           );
         } else if (currentState is ListLoaded) {
+          print('Fetching posts...');
           final List<Submission> submissions = await _fetchSubmissions(
             after: currentState.submissions.last.fullname,
           );
@@ -65,6 +67,7 @@ class SubmissionListBloc
                   submissions: currentState.submissions + submissions,
                   outOfSubmissions: false,
                 );
+          print(currentState.submissions.length);
         }
       }
     }

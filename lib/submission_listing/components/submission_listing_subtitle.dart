@@ -2,8 +2,10 @@ import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+//TODO: MAKE THESE INSTANCE VARIABLES IM TOO LAZY RN
 final double subtitleIconSpacing = 2.0;
-final double subtitleItemSpacing = 12.0;
+final double subtitleItemSpacing = 8.0;
+final double subtitleRowSpacing = 8.0;
 // TODO: Improve the number format
 final NumberFormat scoreFormat = new NumberFormat.compact();
 
@@ -28,7 +30,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
       child: Wrap(
         direction: this.direction ?? Axis.horizontal,
         spacing: subtitleItemSpacing,
-        runSpacing: 4.0,
+        runSpacing: subtitleRowSpacing,
         children: <Widget>[
           // TODO: See if a custom text style for the subtitle can be defined in the theme
           InkWell(
@@ -65,8 +67,62 @@ class SubmissionListingSubtitle extends StatelessWidget {
               ],
             ),
           ),
+          _getAwards(context, spacing: subtitleItemSpacing),
         ],
       ),
+    );
+  }
+
+  Wrap _getAwards(
+    BuildContext context, {
+    double spacing,
+  }) {
+    List<Widget> awardItems = [];
+
+    if (this.submission.silver != null) {
+      awardItems.add(
+        _SubmissionListingSubtitleItem(
+          text: this.submission.silver.toString(),
+          icon: Icons.stars,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle
+              .copyWith(color: Colors.grey.shade200.withOpacity(0.7)),
+        ),
+      );
+    }
+
+    if (this.submission.gold != null) {
+      awardItems.add(
+        _SubmissionListingSubtitleItem(
+          text: this.submission.gold.toString(),
+          icon: Icons.stars,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle
+              .copyWith(color: Colors.yellow.withOpacity(0.7)),
+        ),
+      );
+    }
+
+    if (this.submission.platinum != null) {
+      awardItems.add(
+        _SubmissionListingSubtitleItem(
+          text: this.submission.platinum.toString(),
+          icon: Icons.stars,
+          style: Theme.of(context)
+              .textTheme
+              .subtitle
+              .copyWith(color: Colors.green.withOpacity(0.7)),
+        ),
+      );
+    }
+
+    return new Wrap(
+      spacing: spacing ?? 0,
+      children: <Widget>[
+        ...awardItems,
+      ],
     );
   }
 }
@@ -93,8 +149,12 @@ class _SubmissionListingSubtitleItem extends StatelessWidget {
           if (this.icon != null)
             Icon(
               this.icon,
-              size: this.style ?? Theme.of(context).textTheme.subtitle.fontSize,
-              color: this.style ?? Theme.of(context).textTheme.subtitle.color,
+              size: this.style != null
+                  ? this.style.fontSize
+                  : Theme.of(context).textTheme.subtitle.fontSize,
+              color: this.style != null
+                  ? this.style.color
+                  : Theme.of(context).textTheme.subtitle.color,
             ),
           Text(
             this.text,
