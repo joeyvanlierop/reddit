@@ -1,17 +1,12 @@
+import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:draw/draw.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
 import 'package:reddit/accounts/account_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
-import 'submission_list_bloc.dart';
-import 'submission_list_event.dart';
-import 'submission_list_state.dart';
-
-export 'submission_list_bloc.dart';
-export 'submission_list_event.dart';
-export 'submission_list_state.dart';
-export 'submission_list_view.dart';
+import './bloc.dart';
 
 class SubmissionListBloc
     extends Bloc<SubmissionListEvent, SubmissionListState> {

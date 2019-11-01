@@ -87,7 +87,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .subtitle
-              .copyWith(color: Colors.grey.shade200.withOpacity(0.7)),
+              .copyWith(color: Colors.grey.shade500),
         ),
       );
     }
@@ -100,7 +100,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .subtitle
-              .copyWith(color: Colors.yellow.withOpacity(0.7)),
+              .copyWith(color: Colors.yellow.shade600),
         ),
       );
     }
@@ -113,7 +113,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
           style: Theme.of(context)
               .textTheme
               .subtitle
-              .copyWith(color: Colors.green.withOpacity(0.7)),
+              .copyWith(color: Colors.green),
         ),
       );
     }

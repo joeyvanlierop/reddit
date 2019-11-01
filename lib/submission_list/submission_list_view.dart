@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reddit/submission_list/submission_list_bloc.dart';
-import 'package:reddit/submission_list/submission_list_state.dart';
+import 'package:reddit/submission_list/bloc/bloc.dart';
 import 'package:reddit/submission_listing/layouts/submission_listing_compact.dart';
+
+import 'bloc/submission_list_event.dart';
 
 class SubmissionListView extends StatefulWidget {
   @override
@@ -43,7 +44,7 @@ class _SubmissionListViewState extends State<SubmissionListView> {
         } else if (state is ListLoaded) {
           return ListView.separated(
             padding: EdgeInsets.all(0.0),
-            cacheExtent: 3000.0,
+            cacheExtent: 750.0,
             controller: _scrollController,
             itemCount: state.outOfSubmissions
                 ? state.submissions.length
@@ -58,11 +59,11 @@ class _SubmissionListViewState extends State<SubmissionListView> {
             },
             separatorBuilder: (context, index) {
               return ListSeparator(
-                thickness: 0.75,
+                thickness: 1.2,
                 padding: const EdgeInsets.symmetric(horizontal: 16.0),
               );
-              return Padding(
-                padding: EdgeInsets.symmetric(vertical: 10.0),
+              return ListSeparator(
+                thickness: 15,
               );
             },
           );

@@ -19,12 +19,12 @@ class SubmissionListingExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Color.fromARGB(255, 29, 29, 30),
+      color: Theme.of(context).scaffoldBackgroundColor,
       child: Stack(
         children: <Widget>[
           Positioned.fill(
             child: InkWell(
-              onTap: () => print('Post'),
+              onTap: () => print('Listing'),
             ),
           ),
           Container(

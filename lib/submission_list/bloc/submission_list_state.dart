@@ -1,7 +1,13 @@
 import 'package:draw/draw.dart';
+import 'package:equatable/equatable.dart';
+import 'package:meta/meta.dart';
 
-abstract class SubmissionListState {
+@immutable
+abstract class SubmissionListState extends Equatable {
   const SubmissionListState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ListUninitialized extends SubmissionListState {}
@@ -16,6 +22,12 @@ class ListLoaded extends SubmissionListState {
     this.submissions,
     this.outOfSubmissions,
   });
+
+  @override
+  List<Object> get props => [
+        submissions,
+        outOfSubmissions,
+      ];
 
   ListLoaded copyWith({
     List<Submission> submissions,
