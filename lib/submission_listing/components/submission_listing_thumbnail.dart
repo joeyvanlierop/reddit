@@ -5,6 +5,8 @@ import 'package:draw/draw.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:reddit/media_view/blur_route.dart';
+import 'package:reddit/media_view/media_view.dart';
 
 class SubmissionListingThumbnail extends StatefulWidget {
   final Submission submission;
@@ -31,8 +33,6 @@ class SubmissionListingThumbnail extends StatefulWidget {
 
 class _SubmissionListingThumbnailState
     extends State<SubmissionListingThumbnail> {
-  PreviewImage previewUrl;
-
   @override
   Widget build(BuildContext context) {
     if (widget.submission.isSelf ||
@@ -44,46 +44,110 @@ class _SubmissionListingThumbnailState
       );
     }
 
-    previewUrl = widget.submission.preview.first.resolutions.firstWhere(
-        (res) => res.width >= widget.targetWidth,
-        orElse: () => widget.submission.preview.first.resolutions.last);
-
     return Container(
       width: this.widget.width ?? null,
       height: this.widget.width ?? null,
       child: Padding(
         padding: this.widget.padding ?? EdgeInsets.zero,
-        child: AspectRatio(
-          aspectRatio: previewUrl.width / previewUrl.height,
-          child: Material(
-            borderRadius: this.widget.borderRadius ?? EdgeInsets.zero,
-            clipBehavior: Clip.hardEdge,
-            child: Stack(
-              children: [
-                Positioned.fill(
-                  child: CachedNetworkImage(
-                    imageUrl: Uri.decodeFull(previewUrl.url.toString()),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-                if (widget.submission.over18)
-                  Positioned.fill(
-                    child: _NsfwFilter(),
-                  ),
-                Positioned.fill(
-                  child: Material(
-                    color: Colors.transparent,
-                    child: InkWell(
-                      onTap: () {},
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+        child: _Thumbnail(
+          submission: widget.submission,
+          targetWidth: widget.targetWidth,
+          borderRadius: widget.borderRadius,
         ),
       ),
     );
+  }
+}
+
+class _Thumbnail extends StatelessWidget {
+  final Submission submission;
+  final double targetWidth;
+  final BorderRadius borderRadius;
+
+  const _Thumbnail({
+    Key key,
+    @required this.submission,
+    this.targetWidth,
+    this.borderRadius,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    PreviewImage previewImage = this
+        .submission
+        .preview
+        .first
+        .resolutions
+        .firstWhere((res) => res.width >= this.targetWidth,
+            orElse: () => this.submission.preview.first.resolutions.last);
+
+    ThumbnailImage thumbnailImage = ThumbnailImage(
+      submission: this.submission,
+      previewImage: previewImage,
+    );
+
+    return AspectRatio(
+      aspectRatio: previewImage.width / previewImage.height,
+      child: Material(
+        color: Colors.transparent,
+        borderRadius: this.borderRadius ?? EdgeInsets.zero,
+        clipBehavior: Clip.hardEdge,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: Hero(
+                tag: this.submission.url,
+                child: thumbnailImage,
+              ),
+            ),
+            if (this.submission.over18) Positioned.fill(child: _NsfwFilter()),
+            Positioned.fill(
+              child: Material(
+                color: Colors.transparent,
+                child: InkWell(
+                  onTap: () => Navigator.of(context).push(
+                    BlurPageRoute(
+                      builder: (context) => MediaView(
+                        submission: this.submission,
+                        thumbnailImage: thumbnailImage,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class ThumbnailImage extends StatelessWidget {
+  final Submission submission;
+  final PreviewImage previewImage;
+  final BoxFit fit;
+
+  const ThumbnailImage({
+    Key key,
+    @required this.submission,
+    @required this.previewImage,
+    this.fit = BoxFit.cover,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: _getImage(),
+      fit: this.fit,
+    );
+  }
+
+  String _getImage() {
+//    return this.submission.url.toString().endsWith('.gif')
+//        ? this.submission.url.toString()
+//        : this.previewImage.url.toString();
+    return this.previewImage.url.toString();
   }
 }
 

@@ -12,6 +12,10 @@ final appThemeData = {
       subhead: textTheme.subhead.copyWith(color: Colors.grey.shade900),
       subtitle: textTheme.subtitle.copyWith(color: Colors.grey.shade600),
     ),
+    appBarTheme: AppBarTheme(
+      brightness: Brightness.light,
+      color: Colors.grey.shade100.withOpacity(0.9),
+    ),
     primaryColor: Colors.grey.shade100,
     accentColor: Colors.blueAccent,
     brightness: Brightness.light,
@@ -24,9 +28,13 @@ final appThemeData = {
   ),
   AppTheme.darkTheme: ThemeData(
     textTheme: textTheme.copyWith(
-      title: textTheme.title.copyWith(color: Colors.grey.shade200),
-      subhead: textTheme.subhead.copyWith(color: Colors.grey.shade200),
+      title: textTheme.title.copyWith(color: Colors.grey.shade100),
+      subhead: textTheme.subhead.copyWith(color: Colors.grey.shade100),
       subtitle: textTheme.subtitle.copyWith(color: Colors.grey.shade600),
+    ),
+    appBarTheme: AppBarTheme(
+      brightness: Brightness.dark,
+      color: Color.fromARGB(255, 24, 24, 25).withOpacity(0.925),
     ),
     primaryColor: Color.fromARGB(255, 24, 24, 25),
     accentColor: Colors.blueAccent,
