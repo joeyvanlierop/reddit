@@ -18,17 +18,19 @@ class MediaView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.transparent,
-      body: Stack(children: <Widget>[
-        Positioned.fill(
-          child: GestureDetector(
-            onTap: () => Navigator.of(context).pop(),
-          ),
-        ),
-        Center(
+      body: Center(
+        child: Dismissible(
+          key: Key(this.submission.fullname),
+          direction: DismissDirection.vertical,
+          movementDuration: new Duration(seconds: 1),
+          confirmDismiss: (direction) async {
+            Navigator.maybePop(context);
+            return false;
+          },
           child: SizedBox(
             width: double.infinity,
             child: Hero(
-              tag: submission.url,
+              tag: this.submission.fullname,
               child: CachedNetworkImage(
                 imageUrl: this
                     .submission
@@ -44,7 +46,7 @@ class MediaView extends StatelessWidget {
             ),
           ),
         ),
-      ]),
+      ),
     );
   }
 }

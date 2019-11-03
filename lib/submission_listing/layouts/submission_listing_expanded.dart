@@ -36,12 +36,12 @@ class SubmissionListingExpanded extends StatelessWidget {
                   submission: this.submission,
                   padding: EdgeInsets.only(bottom: this.spacing ?? 0),
                 ),
-                SubmissionListingTitleFlair(
+                SubmissionListingFlair(
                   submission: this.submission,
+                  flairType: FlairType.linkFlair,
                   margin: EdgeInsets.symmetric(vertical: this.spacing ?? 0),
                   padding: EdgeInsets.all(4.0),
                   borderRadius: BorderRadius.circular(5.0),
-                  color: Colors.grey.withOpacity(0.1),
                 ),
                 SubmissionListingThumbnail(
                   submission: this.submission,

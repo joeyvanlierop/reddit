@@ -5,7 +5,7 @@ import 'package:draw/draw.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:reddit/media_view/blur_route.dart';
+import 'package:reddit/media_view/blur_page_route.dart';
 import 'package:reddit/media_view/media_view.dart';
 
 class SubmissionListingThumbnail extends StatefulWidget {
@@ -92,31 +92,31 @@ class _Thumbnail extends StatelessWidget {
         color: Colors.transparent,
         borderRadius: this.borderRadius ?? EdgeInsets.zero,
         clipBehavior: Clip.hardEdge,
-        child: Stack(
-          children: [
-            Positioned.fill(
-              child: Hero(
-                tag: this.submission.url,
+        child: Hero(
+          tag: this.submission.fullname,
+          child: Stack(
+            children: [
+              Positioned.fill(
                 child: thumbnailImage,
               ),
-            ),
-            if (this.submission.over18) Positioned.fill(child: _NsfwFilter()),
-            Positioned.fill(
-              child: Material(
-                color: Colors.transparent,
-                child: InkWell(
-                  onTap: () => Navigator.of(context).push(
-                    BlurPageRoute(
-                      builder: (context) => MediaView(
-                        submission: this.submission,
-                        thumbnailImage: thumbnailImage,
+              if (submission.over18) _NsfwFilter(),
+              Positioned.fill(
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    onTap: () => Navigator.of(context).push(
+                      BlurPageRoute(
+                        builder: (context) => MediaView(
+                          submission: this.submission,
+                          thumbnailImage: thumbnailImage,
+                        ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -154,10 +154,12 @@ class ThumbnailImage extends StatelessWidget {
 class _NsfwFilter extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
-      child: new Container(
-        decoration: new BoxDecoration(color: Colors.red.withOpacity(0.2)),
+    return ClipRect(
+      child: BackdropFilter(
+        filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+        child: Container(
+          color: Colors.red.withOpacity(0.5),
+        ),
       ),
     );
   }

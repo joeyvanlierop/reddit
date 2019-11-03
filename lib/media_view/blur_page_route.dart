@@ -26,7 +26,7 @@ class BlurPageRoute extends PageRoute<void> {
   bool get maintainState => true;
 
   @override
-  Duration get transitionDuration => Duration(milliseconds: 250);
+  Duration get transitionDuration => Duration(milliseconds: 200);
 
   @override
   Widget buildTransitions(BuildContext context, Animation<double> animation,
@@ -69,12 +69,15 @@ class _BlurPageTransition extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BackdropFilter(
-      filter: new ImageFilter.blur(
-        sigmaX: animation.value,
-        sigmaY: animation.value,
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      child: BackdropFilter(
+        filter: new ImageFilter.blur(
+          sigmaX: animation.value,
+          sigmaY: animation.value,
+        ),
+        child: child,
       ),
-      child: child,
     );
   }
 }

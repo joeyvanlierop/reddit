@@ -40,13 +40,37 @@ class SubmissionListingCompact extends StatelessWidget {
                         submission: this.submission,
                         padding: EdgeInsets.only(bottom: this.spacing ?? 0),
                       ),
-                      SubmissionListingTitleFlair(
-                        submission: this.submission,
-                        margin:
-                            EdgeInsets.symmetric(vertical: this.spacing ?? 0),
-                        padding: EdgeInsets.all(4.0),
-                        borderRadius: BorderRadius.circular(5.0),
-                        color: Colors.grey.withOpacity(0.1),
+                      Wrap(
+                        spacing: 10.0,
+                        children: <Widget>[
+                          if (submission.linkFlairText != null)
+                            SubmissionListingFlair(
+                              submission: this.submission,
+                              flairType: FlairType.linkFlair,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: this.spacing ?? 0),
+                              padding: EdgeInsets.all(4.0),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          if (submission.over18)
+                            SubmissionListingFlair(
+                              submission: this.submission,
+                              flairType: FlairType.nsfwFlair,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: this.spacing ?? 0),
+                              padding: EdgeInsets.all(4.0),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                          if (submission.spoiler)
+                            SubmissionListingFlair(
+                              submission: this.submission,
+                              flairType: FlairType.spoilerFlair,
+                              margin: EdgeInsets.symmetric(
+                                  vertical: this.spacing ?? 0),
+                              padding: EdgeInsets.all(4.0),
+                              borderRadius: BorderRadius.circular(5.0),
+                            ),
+                        ],
                       ),
                       SubmissionListingSubtitle(
                         submission: this.submission,
