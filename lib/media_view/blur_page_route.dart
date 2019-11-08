@@ -13,6 +13,7 @@ class BlurPageRoute extends PageRoute<void> {
 
   @override
   Color get barrierColor => null;
+
   @override
   bool get opaque => false;
 
@@ -69,15 +70,12 @@ class _BlurPageTransition extends AnimatedWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
-      child: BackdropFilter(
-        filter: new ImageFilter.blur(
-          sigmaX: animation.value,
-          sigmaY: animation.value,
-        ),
-        child: child,
+    return BackdropFilter(
+      filter: new ImageFilter.blur(
+        sigmaX: animation.value,
+        sigmaY: animation.value,
       ),
+      child: this.child,
     );
   }
 }

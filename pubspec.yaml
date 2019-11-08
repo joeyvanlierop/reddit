@@ -12,6 +12,7 @@ dependencies:
   intl: ^0.16.0
   draw: ^0.8.0
   flutter_bloc: ^1.0.0
+  flutter_slidable: ^0.5.4
   cached_network_image: ^1.1.2+1
   equatable: ^0.6.1
 

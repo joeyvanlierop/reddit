@@ -106,7 +106,7 @@ class _Thumbnail extends StatelessWidget {
                   child: InkWell(
                     onTap: () => Navigator.of(context).push(
                       BlurPageRoute(
-                        builder: (context) => MediaView(
+                        builder: (context) => MediaViewContainer(
                           submission: this.submission,
                           thumbnailImage: thumbnailImage,
                         ),
@@ -158,7 +158,7 @@ class _NsfwFilter extends StatelessWidget {
       child: BackdropFilter(
         filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
         child: Container(
-          color: Colors.red.withOpacity(0.5),
+          color: Colors.red.withOpacity(0.1),
         ),
       ),
     );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit/submission_list/bloc/bloc.dart';
-import 'package:reddit/submission_listing/layouts/submission_listing_compact.dart';
+import 'package:reddit/submission_listing/submission_listing.dart';
 
 import 'bloc/submission_list_event.dart';
 
@@ -52,16 +52,13 @@ class _SubmissionListViewState extends State<SubmissionListView> {
             itemBuilder: (BuildContext context, int index) {
               return index >= state.submissions.length
                   ? LoadingIndicator()
-                  : SubmissionListingCompact(
-                      submission: state.submissions[index],
-                      spacing: 4.0,
-                    );
+                  : SubmissionListing(submission: state.submissions[index]);
             },
             separatorBuilder: (context, index) {
-              return ListSeparator(
-                thickness: 1.2,
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              );
+//              return ListSeparator(
+//                thickness: 1.2,
+//                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+//              );
               return ListSeparator(
                 thickness: 15,
               );

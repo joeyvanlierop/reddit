@@ -4,6 +4,87 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:reddit/submission_listing/components/submission_listing_thumbnail.dart';
 
+class MediaViewContainer extends StatefulWidget {
+  final Submission submission;
+  final ThumbnailImage thumbnailImage;
+
+  const MediaViewContainer({
+    Key key,
+    @required this.submission,
+    @required this.thumbnailImage,
+  }) : super(key: key);
+
+  @override
+  _MediaViewContainerState createState() => _MediaViewContainerState();
+}
+
+class _MediaViewContainerState extends State<MediaViewContainer>
+    with SingleTickerProviderStateMixin {
+  AnimationController animationController;
+  Animation animation;
+  double xOffset = 0.0;
+  double yOffset = 0.0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    animationController = new AnimationController(
+        duration: Duration(milliseconds: 700), vsync: this);
+    animation = Tween(begin: 1.0, end: 0.0).animate(animationController)
+      ..addListener(() {
+        setState(() {});
+      });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    animationController.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.of(context).pop(),
+      onPanUpdate: (panUpdateInfo) {
+        animationController.reset();
+
+        setState(() {
+          yOffset += panUpdateInfo.delta.dy;
+        });
+      },
+      onPanEnd: (panEndInfo) {
+        if (panEndInfo.velocity.pixelsPerSecond.dy.abs() > 3500) {
+          Navigator.of(context).pop();
+        } else {
+          animationController.reset();
+          animationController.forward();
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: Stack(
+          children: <Widget>[
+            Positioned(
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.height,
+              top: yOffset *= animation.value,
+              child: SizedBox.expand(
+                child: MediaView(
+                  submission: widget.submission,
+                  thumbnailImage: widget.thumbnailImage,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
 class MediaView extends StatelessWidget {
   final Submission submission;
   final ThumbnailImage thumbnailImage;
@@ -16,33 +97,17 @@ class MediaView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: Center(
-        child: Dismissible(
-          key: Key(this.submission.fullname),
-          direction: DismissDirection.vertical,
-          movementDuration: new Duration(seconds: 1),
-          confirmDismiss: (direction) async {
-            Navigator.maybePop(context);
-            return false;
-          },
-          child: SizedBox(
-            width: double.infinity,
-            child: Hero(
-              tag: this.submission.fullname,
-              child: CachedNetworkImage(
-                imageUrl: this
-                    .submission
-                    .preview
-                    .last
-                    .resolutions
-                    .last
-                    .url
-                    .toString(),
-                placeholder: (context, string) => this.thumbnailImage,
-                fit: BoxFit.cover,
-              ),
+    return Center(
+      child: SizedBox(
+        width: double.infinity,
+        child: GestureDetector(
+          child: Hero(
+            tag: this.submission.fullname,
+            child: CachedNetworkImage(
+              imageUrl:
+                  this.submission.preview.last.resolutions.last.url.toString(),
+              placeholder: (context, string) => this.thumbnailImage,
+              fit: BoxFit.cover,
             ),
           ),
         ),
