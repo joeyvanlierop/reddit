@@ -13,7 +13,7 @@ class SubmissionListingExpanded extends StatelessWidget {
   const SubmissionListingExpanded({
     Key key,
     @required this.submission,
-    this.spacing,
+    this.spacing = 4.0,
   }) : super(key: key);
 
   @override
@@ -24,7 +24,7 @@ class SubmissionListingExpanded extends StatelessWidget {
         children: <Widget>[
           Positioned.fill(
             child: InkWell(
-              onTap: () => print('Listing'),
+              onTap: () {},
             ),
           ),
           Container(

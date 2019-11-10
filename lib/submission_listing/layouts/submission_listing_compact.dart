@@ -1,5 +1,9 @@
 import 'package:draw/draw.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reddit/reddit_pane/bloc/bloc.dart';
+import 'package:reddit/reddit_pane/reddit_pane_view.dart';
 import 'package:reddit/submission_listing/components/submission_listing_flair.dart';
 import 'package:reddit/submission_listing/components/submission_listing_subtitle.dart';
 import 'package:reddit/submission_listing/components/submission_listing_thumbnail.dart';
@@ -12,7 +16,7 @@ class SubmissionListingCompact extends StatelessWidget {
   const SubmissionListingCompact({
     Key key,
     @required this.submission,
-    this.spacing,
+    this.spacing = 4.0,
   }) : super(key: key);
 
   @override
@@ -24,7 +28,14 @@ class SubmissionListingCompact extends StatelessWidget {
           Positioned.fill(
             child: InkWell(
               onTap: () {
-                print("Post");
+                BlocProvider.of<RedditPaneBloc>(context)
+                    .add(SetRedditPaneSubmission(
+                  submission: this.submission,
+                ));
+
+                return RedditPane.pageController.animateToPage(1,
+                    curve: Curves.decelerate,
+                    duration: Duration(milliseconds: 400));
               },
             ),
           ),

@@ -17,11 +17,11 @@ class AppThemeBloc extends Bloc<AppThemeEvent, AppThemeState> {
     if (event is SetAppThemeEvent) {
       yield AppThemeState(themeData: appThemeData[event.appTheme]);
     } else if (event is SwapAppThemeEvent) {
-      yield AppThemeState(themeData: appThemeData[_swapTheme(state)]);
+      yield AppThemeState(themeData: appThemeData[_swapTheme()]);
     }
   }
 
-  AppTheme _swapTheme(AppThemeState state) {
+  AppTheme _swapTheme() {
     return state.themeData == appThemeData[AppTheme.darkTheme]
         ? AppTheme.lightTheme
         : AppTheme.darkTheme;

@@ -42,8 +42,8 @@ class AccountManager {
     if (_currentAccount == null) {
       await _createReadOnly().then((readOnlyAccount) {
         changeAccount(readOnlyAccount);
-      }).catchError((error) {
-        print(error);
+      }).catchError((e) {
+        return e;
       }).timeout(
         const Duration(seconds: 20),
       );

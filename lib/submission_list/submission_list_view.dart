@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:reddit/reddit_pane/bloc/bloc.dart';
 import 'package:reddit/submission_list/bloc/bloc.dart';
 import 'package:reddit/submission_listing/submission_listing.dart';
+import 'package:reddit/submission_listing/submission_seperator.dart';
 
 import 'bloc/submission_list_event.dart';
 
@@ -52,17 +54,19 @@ class _SubmissionListViewState extends State<SubmissionListView> {
             itemBuilder: (BuildContext context, int index) {
               return index >= state.submissions.length
                   ? LoadingIndicator()
-                  : SubmissionListing(submission: state.submissions[index]);
+                  : SubmissionListing(
+                      submission: state.submissions[index],
+                      submissionListingLayout:
+                          BlocProvider.of<RedditPaneBloc>(context)
+                              .state
+                              .submissionListingLayout,
+                    );
             },
-            separatorBuilder: (context, index) {
-//              return ListSeparator(
-//                thickness: 1.2,
-//                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-//              );
-              return ListSeparator(
-                thickness: 15,
-              );
-            },
+            separatorBuilder: (context, index) => SubmissionSeperator(
+              submissionListingLayout: BlocProvider.of<RedditPaneBloc>(context)
+                  .state
+                  .submissionListingLayout,
+            ),
           );
         } else {
           return null;
@@ -78,41 +82,6 @@ class _SubmissionListViewState extends State<SubmissionListView> {
     if (maxScroll - currentScroll <= _scrollThreshold) {
       _listBloc.add(Fetch());
     }
-  }
-}
-
-class ListSeparator extends StatelessWidget {
-  final Color color;
-  final double thickness;
-  final EdgeInsets padding;
-
-  const ListSeparator({
-    Key key,
-    this.color,
-    this.thickness,
-    this.padding,
-  })  : assert(thickness >= 0.0),
-        super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: this.padding ?? EdgeInsets.all(0.0),
-      child: SizedBox(
-        child: Center(
-          child: Container(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: this.color ?? Theme.of(context).dividerColor,
-                  width: this.thickness ?? 1.0,
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
   }
 }
 

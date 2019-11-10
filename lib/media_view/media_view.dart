@@ -56,7 +56,7 @@ class _MediaViewContainerState extends State<MediaViewContainer>
         });
       },
       onPanEnd: (panEndInfo) {
-        if (panEndInfo.velocity.pixelsPerSecond.dy.abs() > 3500) {
+        if (panEndInfo.velocity.pixelsPerSecond.dy.abs() > 1500) {
           Navigator.of(context).pop();
         } else {
           animationController.reset();
