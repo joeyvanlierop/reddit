@@ -1,42 +1,43 @@
 import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:reddit/ui/text_icon.dart';
 
-//TODO: MAKE THESE INSTANCE VARIABLES IM TOO LAZY RN
-final double subtitleIconSpacing = 2.0;
-final double subtitleItemSpacing = 8.0;
-final double subtitleRowSpacing = 8.0;
-// TODO: Improve the number format
+// TODO: Improve and globalize the number format
 final NumberFormat scoreFormat = new NumberFormat.compact();
 
 class SubmissionListingSubtitle extends StatelessWidget {
   final Submission submission;
   final TextStyle style;
-  final EdgeInsets padding;
   final Axis direction;
+  final EdgeInsets padding;
+  final double itemSpacing;
+  final double rowSpacing;
 
   const SubmissionListingSubtitle({
     Key key,
     @required this.submission,
     this.style,
-    this.padding,
     this.direction,
+    this.padding = EdgeInsets.zero,
+    this.itemSpacing = 8.0,
+    this.rowSpacing = 8.0,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: this.padding ?? EdgeInsets.zero,
+      padding: this.padding,
       child: Wrap(
         direction: this.direction ?? Axis.horizontal,
-        spacing: subtitleItemSpacing,
-        runSpacing: subtitleRowSpacing,
+        spacing: itemSpacing,
+        runSpacing: rowSpacing,
         children: <Widget>[
           // TODO: See if a custom text style for the subtitle can be defined in the theme
           InkWell(
             onTap: () => print(submission.subreddit.displayName),
-            child: _SubmissionListingSubtitleItem(
-              text: this.submission.subreddit.displayName,
+            child: Text(
+              this.submission.subreddit.displayName,
               style: Theme.of(context)
                   .textTheme
                   .subtitle
@@ -46,17 +47,17 @@ class SubmissionListingSubtitle extends StatelessWidget {
           // TODO: Add the potential to rearrange the icons
           IgnorePointer(
             child: Wrap(
-              spacing: subtitleItemSpacing,
+              spacing: itemSpacing,
               children: <Widget>[
-                _SubmissionListingSubtitleItem(
+                TextIcon(
                   text: scoreFormat.format(this.submission.score),
                   icon: Icons.arrow_upward,
                 ),
-                _SubmissionListingSubtitleItem(
+                TextIcon(
                   text: this.submission.numComments.toString(),
                   icon: Icons.chat_bubble_outline,
                 ),
-                _SubmissionListingSubtitleItem(
+                TextIcon(
                   text: DateTime.now()
                           .difference(this.submission.createdUtc)
                           .inHours
@@ -67,7 +68,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
               ],
             ),
           ),
-          _getAwards(context, spacing: subtitleItemSpacing),
+          _getAwards(context, spacing: itemSpacing),
         ],
       ),
     );
@@ -81,7 +82,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
 
     if (this.submission.silver != null) {
       awardItems.add(
-        _SubmissionListingSubtitleItem(
+        TextIcon(
           text: this.submission.silver.toString(),
           icon: Icons.stars,
           style: Theme.of(context)
@@ -94,7 +95,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
 
     if (this.submission.gold != null) {
       awardItems.add(
-        _SubmissionListingSubtitleItem(
+        TextIcon(
           text: this.submission.gold.toString(),
           icon: Icons.stars,
           style: Theme.of(context)
@@ -107,7 +108,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
 
     if (this.submission.platinum != null) {
       awardItems.add(
-        _SubmissionListingSubtitleItem(
+        TextIcon(
           text: this.submission.platinum.toString(),
           icon: Icons.stars,
           style: Theme.of(context)
@@ -123,45 +124,6 @@ class SubmissionListingSubtitle extends StatelessWidget {
       children: <Widget>[
         ...awardItems,
       ],
-    );
-  }
-}
-
-class _SubmissionListingSubtitleItem extends StatelessWidget {
-  final String text;
-  final TextStyle style;
-  final IconData icon;
-
-  const _SubmissionListingSubtitleItem({
-    Key key,
-    @required this.text,
-    this.style,
-    this.icon,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      child: Wrap(
-        crossAxisAlignment: WrapCrossAlignment.center,
-        spacing: subtitleIconSpacing,
-        children: <Widget>[
-          if (this.icon != null)
-            Icon(
-              this.icon,
-              size: this.style != null
-                  ? this.style.fontSize
-                  : Theme.of(context).textTheme.subtitle.fontSize,
-              color: this.style != null
-                  ? this.style.color
-                  : Theme.of(context).textTheme.subtitle.color,
-            ),
-          Text(
-            this.text,
-            style: this.style ?? Theme.of(context).textTheme.subtitle,
-          ),
-        ],
-      ),
     );
   }
 }

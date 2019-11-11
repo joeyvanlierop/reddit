@@ -1,6 +1,6 @@
 import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
-import 'package:reddit/submission_comments/submission_comment_tree.dart';
+import 'package:reddit/submission_comment_tree/submission_comment_tree.dart';
 
 class SubmissionCommentsView extends StatelessWidget {
   final Submission submission;

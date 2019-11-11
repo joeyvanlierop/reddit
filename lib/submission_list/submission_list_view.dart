@@ -45,6 +45,7 @@ class _SubmissionListViewState extends State<SubmissionListView> {
           );
         } else if (state is ListLoaded) {
           return ListView.separated(
+            physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(0.0),
             cacheExtent: 750.0,
             controller: _scrollController,

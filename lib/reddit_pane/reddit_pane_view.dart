@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reddit/submission_comments/submission_comments_view.dart';
+import 'package:reddit/submission_comment_tree/submission_comments_view.dart';
 import 'package:reddit/submission_list/submission_list.dart';
 import 'package:reddit/submission_listing/layouts/submission_listing_header.dart';
 
@@ -32,6 +32,7 @@ class RedditPane extends StatelessWidget {
             Scaffold(
               body: SafeArea(
                 child: SingleChildScrollView(
+                  physics: ScrollPhysics(),
                   child: Column(
                     children: <Widget>[
                       SubmissionListingHeader(
