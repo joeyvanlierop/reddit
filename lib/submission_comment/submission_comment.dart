@@ -1,7 +1,18 @@
 import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
+import 'package:reddit/submission_comment/components/submission_comment_body.dart';
 import 'package:reddit/submission_comment/components/submission_comment_header.dart';
-import 'package:reddit/submission_comment_tree/submission_comment_tree.dart';
+
+List<Color> depthColor = [
+  Colors.transparent,
+  Colors.deepPurple,
+  Colors.indigoAccent,
+  Colors.blueAccent,
+  Colors.green.shade600,
+  Colors.amber,
+  Colors.orange,
+  Colors.red,
+];
 
 class SubmissionComment extends StatefulWidget {
   final Comment comment;
@@ -29,33 +40,27 @@ class _SubmissionCommentState extends State<SubmissionComment> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        SizedBox(
-          width: double.infinity,
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                return this.expanded = !this.expanded;
-              });
-            },
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: SubmissionCommentHeader(comment: widget.comment),
-            ),
-          ),
+    return Container(
+      decoration: BoxDecoration(
+        border: Border(
+          left: BorderSide(
+              width: 4.0,
+              color: depthColor[widget.comment.depth % depthColor.length]),
         ),
-        if (widget.replies != null)
-          AnimatedContainer(
-            height: expanded ? 100 : 10,
-            duration: Duration(milliseconds: 400),
-            child: Padding(
-              padding: EdgeInsets.only(left: 16.0),
-              child: SubmissionCommentTree(comments: widget.replies),
+      ),
+      child: Padding(
+        padding: EdgeInsets.all(12.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            SubmissionCommentHeader(comment: widget.comment),
+            SizedBox(
+              height: 8.0,
             ),
-          ),
-      ],
+            SubmissionCommentBody(comment: widget.comment),
+          ],
+        ),
+      ),
     );
   }
 }

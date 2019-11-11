@@ -15,37 +15,65 @@ class SubmissionCommentTree extends StatefulWidget {
 }
 
 class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
-  bool expanded;
+  List<Comment> commentList;
 
   @override
   void initState() {
     super.initState();
 
-    expanded = true;
+    commentList = _getComments();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(left: 8.0),
-      child: ListView.builder(
-        physics: NeverScrollableScrollPhysics(),
-        shrinkWrap: true,
-        itemCount: widget.comments.length,
-        itemBuilder: (context, index) {
-          if (!(widget.comments[index] is Comment)) {
-            return null;
-          }
+    return ListView.builder(
+      physics: NeverScrollableScrollPhysics(),
+      shrinkWrap: true,
+      itemCount: widget.comments.length,
+      itemBuilder: (context, index) {
+        Comment comment = commentList[index];
+        print(comment.depth);
 
-          Comment comment = widget.comments[index];
-          CommentForest replies = comment.replies;
-
-          return SubmissionComment(
-            comment: comment,
-            replies: replies,
-          );
-        },
-      ),
+        return Padding(
+          padding: EdgeInsets.only(left: 4.0 * comment.depth),
+          child: InkWell(
+            onTap: () {},
+            child: SubmissionComment(comment: comment),
+          ),
+        );
+      },
     );
+  }
+
+  List<Comment> _getComments() {
+    List<Comment> commentList = [];
+
+    widget.comments.comments.forEach((comment) {
+      if (comment is Comment) {
+        commentList.add(comment);
+
+        if (comment.replies != null) {
+          commentList.addAll(_getReplies(comment));
+        }
+      }
+    });
+
+    return commentList;
+  }
+
+  List<Comment> _getReplies(Comment parent) {
+    List<Comment> replyList = [];
+
+    parent.replies.comments.forEach((reply) {
+      if (reply is Comment) {
+        replyList.add(reply);
+
+        if (reply.replies != null) {
+          replyList.addAll(_getReplies(reply));
+        }
+      }
+    });
+
+    return replyList;
   }
 }
