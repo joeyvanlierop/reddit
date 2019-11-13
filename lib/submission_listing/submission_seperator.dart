@@ -18,7 +18,7 @@ class SubmissionSeperator extends StatelessWidget {
     switch (submissionListingLayout) {
       case SubmissionListingLayout.compact:
         return ListSeparator(
-          thickness: 1.7,
+          thickness: 1,
           padding: const EdgeInsets.symmetric(horizontal: 16.0),
         );
       case SubmissionListingLayout.expanded:

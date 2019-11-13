@@ -23,6 +23,7 @@ class RedditPane extends StatelessWidget {
     return BlocBuilder<RedditPaneBloc, RedditPaneState>(
       builder: (context, state) {
         return PageView(
+          physics: AlwaysScrollableScrollPhysics(),
           controller: pageController,
           children: <Widget>[
             SubmissionList(

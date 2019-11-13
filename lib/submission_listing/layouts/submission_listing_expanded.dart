@@ -19,7 +19,7 @@ class SubmissionListingExpanded extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Theme.of(context).scaffoldBackgroundColor,
+      color: Colors.transparent,
       child: Stack(
         children: <Widget>[
           Positioned.fill(

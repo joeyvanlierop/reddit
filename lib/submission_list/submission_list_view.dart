@@ -13,7 +13,7 @@ class SubmissionListView extends StatefulWidget {
 }
 
 class _SubmissionListViewState extends State<SubmissionListView> {
-  final ScrollController _scrollController = ScrollController();
+  final ScrollController _listViewController = ScrollController();
   final double _scrollThreshold = 5000.0;
   SubmissionListBloc _listBloc;
 
@@ -21,14 +21,24 @@ class _SubmissionListViewState extends State<SubmissionListView> {
   void initState() {
     super.initState();
 
-    _scrollController.addListener(_onScroll);
+    _listViewController.addListener(_onScroll);
     _listBloc = BlocProvider.of<SubmissionListBloc>(context);
   }
 
   @override
   void dispose() {
-    _scrollController.dispose();
     super.dispose();
+
+    _listViewController.dispose();
+  }
+
+  void _onScroll() {
+    final maxScroll = _listViewController.position.maxScrollExtent;
+    final currentScroll = _listViewController.position.pixels;
+
+    if (maxScroll - currentScroll <= _scrollThreshold) {
+      _listBloc.add(Fetch());
+    }
   }
 
   @override
@@ -47,8 +57,8 @@ class _SubmissionListViewState extends State<SubmissionListView> {
           return ListView.separated(
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(0.0),
-            cacheExtent: 750.0,
-            controller: _scrollController,
+            cacheExtent: 500.0,
+            controller: _listViewController,
             itemCount: state.outOfSubmissions
                 ? state.submissions.length
                 : state.submissions.length + 1,
@@ -74,15 +84,6 @@ class _SubmissionListViewState extends State<SubmissionListView> {
         }
       },
     );
-  }
-
-  void _onScroll() {
-    final maxScroll = _scrollController.position.maxScrollExtent;
-    final currentScroll = _scrollController.position.pixels;
-
-    if (maxScroll - currentScroll <= _scrollThreshold) {
-      _listBloc.add(Fetch());
-    }
   }
 }
 

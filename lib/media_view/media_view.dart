@@ -30,7 +30,11 @@ class _MediaViewContainerState extends State<MediaViewContainer>
     super.initState();
 
     animationController = new AnimationController(
-        duration: Duration(milliseconds: 700), vsync: this);
+      duration: Duration(milliseconds: 1000),
+      vsync: this,
+    )..addListener(() {
+        setState(() {});
+      });
     animation = Tween(begin: 1.0, end: 0.0).animate(animationController)
       ..addListener(() {
         setState(() {});
@@ -47,7 +51,10 @@ class _MediaViewContainerState extends State<MediaViewContainer>
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.of(context).pop(),
+      onTap: () {
+        animationController.reset();
+        Navigator.of(context).pop();
+      },
       onPanUpdate: (panUpdateInfo) {
         animationController.reset();
 
@@ -57,7 +64,7 @@ class _MediaViewContainerState extends State<MediaViewContainer>
       },
       onPanEnd: (panEndInfo) {
         if (panEndInfo.velocity.pixelsPerSecond.dy.abs() > 1500) {
-          Navigator.of(context).pop();
+          Navigator.of(context).pop(context);
         } else {
           animationController.reset();
           animationController.forward();
