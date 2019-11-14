@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:reddit/submission_comment/submission_comment.dart';
 
 class SubmissionCommentTree extends StatefulWidget {
-  final CommentForest comments;
+  final CommentForest topLevelComments;
 
   const SubmissionCommentTree({
     Key key,
-    @required this.comments,
+    @required this.topLevelComments,
   }) : super(key: key);
 
   @override
@@ -15,19 +15,41 @@ class SubmissionCommentTree extends StatefulWidget {
 }
 
 class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
+  List<Comment> commentTree;
+
+  @override
+  void initState() {
+    super.initState();
+
+    commentTree = _buildCommentTree();
+  }
+
+  List<Comment> _buildCommentTree({CommentForest commentForest}) {
+    List<Comment> comments = [];
+    commentForest ??= widget.topLevelComments;
+
+    commentForest.comments.forEach((comment) {
+      if (comment is Comment) {
+        comments.add(comment);
+
+        if (comment.replies != null) {
+          comments.addAll(_buildCommentTree(commentForest: comment.replies));
+        }
+      }
+    });
+
+    return comments;
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       physics: NeverScrollableScrollPhysics(),
       primary: false,
       shrinkWrap: true,
-      itemCount: widget.comments.length,
+      itemCount: widget.topLevelComments.length,
       itemBuilder: (context, index) {
-        if (widget.comments[index] is! Comment) {
-          return null;
-        }
-
-        return SubmissionComment(comment: widget.comments[index]);
+        return SubmissionComment(comment: commentTree[index]);
       },
     );
   }

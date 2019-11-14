@@ -13,11 +13,11 @@ class SubmissionCommentsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<CommentForest>(
-      future: _getComments(),
+      future: _fetchComments(),
       builder: (context, snapshot) {
         switch (snapshot.connectionState) {
           case ConnectionState.done:
-            return SubmissionCommentTree(comments: snapshot.data);
+            return SubmissionCommentTree(topLevelComments: snapshot.data);
           default:
             return LoadingIndicator();
         }
@@ -25,7 +25,7 @@ class SubmissionCommentsView extends StatelessWidget {
     );
   }
 
-  Future<CommentForest> _getComments() async {
+  Future<CommentForest> _fetchComments() async {
     return await this.submission.refreshComments();
   }
 }
