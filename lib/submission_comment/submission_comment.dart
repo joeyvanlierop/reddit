@@ -5,7 +5,6 @@ import 'package:reddit/submission_comment/components/submission_comment_header.d
 
 class SubmissionComment extends StatefulWidget {
   static final List<Color> depthColor = [
-    Colors.transparent,
     Colors.deepPurple,
     Colors.indigoAccent,
     Colors.blueAccent,
@@ -48,8 +47,10 @@ class _SubmissionCommentState extends State<SubmissionComment> {
           border: Border(
             left: BorderSide(
               width: 4.0,
-              color: SubmissionComment
-                  .depthColor[depth % SubmissionComment.depthColor.length],
+              color: depth == 0
+                  ? Colors.transparent
+                  : SubmissionComment.depthColor[
+                      (depth - 1) % SubmissionComment.depthColor.length],
             ),
           ),
         ),

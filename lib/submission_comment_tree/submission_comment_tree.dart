@@ -47,7 +47,7 @@ class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
       physics: NeverScrollableScrollPhysics(),
       primary: false,
       shrinkWrap: true,
-      itemCount: widget.topLevelComments.length,
+      itemCount: commentTree.length,
       itemBuilder: (context, index) {
         return SubmissionComment(comment: commentTree[index]);
       },
