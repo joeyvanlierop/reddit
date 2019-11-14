@@ -41,30 +41,33 @@ class _SubmissionCommentState extends State<SubmissionComment> {
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: SubmissionComment.depthMargin * depth),
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          border: Border(
-            left: BorderSide(
-              width: 4.0,
-              color: depth == 0
-                  ? Colors.transparent
-                  : SubmissionComment.depthColor[
-                      (depth - 1) % SubmissionComment.depthColor.length],
+      child: InkWell(
+        onTap: () {},
+        child: Container(
+          width: double.infinity,
+          decoration: BoxDecoration(
+            border: Border(
+              left: BorderSide(
+                width: 4.0,
+                color: depth == 0
+                    ? Colors.transparent
+                    : SubmissionComment.depthColor[
+                        (depth - 1) % SubmissionComment.depthColor.length],
+              ),
             ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              SubmissionCommentHeader(comment: widget.comment),
-              SizedBox(
-                height: 8.0,
-              ),
-              SubmissionCommentBody(comment: widget.comment),
-            ],
+          child: Padding(
+            padding: EdgeInsets.all(12.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                SubmissionCommentHeader(comment: widget.comment),
+                SizedBox(
+                  height: 8.0,
+                ),
+                SubmissionCommentBody(comment: widget.comment),
+              ],
+            ),
           ),
         ),
       ),

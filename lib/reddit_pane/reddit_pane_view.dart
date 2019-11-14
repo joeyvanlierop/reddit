@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:reddit/submission_comment_tree/submission_comments_view.dart';
-import 'package:reddit/submission_list/submission_list.dart';
-import 'package:reddit/submission_listing/layouts/submission_listing_header.dart';
+import 'package:reddit/submission_comment_tree/submission_comments_page.dart';
+import 'package:reddit/submission_list/submission_list_page.dart';
 
 import 'bloc/bloc.dart';
 
@@ -26,27 +25,13 @@ class RedditPane extends StatelessWidget {
           physics: AlwaysScrollableScrollPhysics(),
           controller: pageController,
           children: <Widget>[
-            SubmissionList(
+            SubmissionListPage(
               subreddit: this.subreddit,
               limit: this.limit,
             ),
-            Scaffold(
-              body: SafeArea(
-                child: SingleChildScrollView(
-                  physics: ScrollPhysics(),
-                  child: Column(
-                    children: <Widget>[
-                      SubmissionListingHeader(
-                        submission: state.submission,
-                      ),
-                      SubmissionCommentsView(
-                        submission: state.submission,
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            )
+            SubmissionCommentsPage(
+              submission: state.submission,
+            ),
           ],
         );
       },

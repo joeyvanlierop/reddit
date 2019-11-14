@@ -25,6 +25,8 @@ class SubmissionSeperator extends StatelessWidget {
         return ListSeparator(
           thickness: 15,
         );
+      default:
+        return null;
     }
   }
 }

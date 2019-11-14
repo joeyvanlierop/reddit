@@ -1,3 +1,4 @@
+import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit/reddit_pane/bloc/bloc.dart';
@@ -41,43 +42,63 @@ class _SubmissionListViewState extends State<SubmissionListView> {
     }
   }
 
+  Widget _buildSubmission(
+      {@required Submission submission, bool divider = true}) {
+    return Column(
+      children: <Widget>[
+        SubmissionListing(
+          submission: submission,
+          submissionListingLayout: BlocProvider.of<RedditPaneBloc>(context)
+              .state
+              .submissionListingLayout,
+        ),
+        if (divider)
+          SubmissionSeperator(
+            submissionListingLayout: BlocProvider.of<RedditPaneBloc>(context)
+                .state
+                .submissionListingLayout,
+          ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<SubmissionListBloc, SubmissionListState>(
       builder: (context, state) {
         if (state is ListError) {
-          return Center(
-            child: Text('Retry'),
+          return SliverToBoxAdapter(
+            child: Center(
+              child: Text('Retry'),
+            ),
           );
         } else if (state is ListUninitialized) {
-          return Center(
-            child: LoadingIndicator(),
+          return SliverToBoxAdapter(
+            child: Center(
+              child: LoadingIndicator(),
+            ),
           );
         } else if (state is ListLoaded) {
-          return ListView.separated(
-            physics: AlwaysScrollableScrollPhysics(),
-            padding: EdgeInsets.all(0.0),
-            cacheExtent: 500.0,
-            controller: _listViewController,
-            itemCount: state.outOfSubmissions
-                ? state.submissions.length
-                : state.submissions.length + 1,
-            itemBuilder: (BuildContext context, int index) {
-              return index >= state.submissions.length
-                  ? LoadingIndicator()
-                  : SubmissionListing(
-                      submission: state.submissions[index],
-                      submissionListingLayout:
-                          BlocProvider.of<RedditPaneBloc>(context)
-                              .state
-                              .submissionListingLayout,
-                    );
-            },
-            separatorBuilder: (context, index) => SubmissionSeperator(
-              submissionListingLayout: BlocProvider.of<RedditPaneBloc>(context)
-                  .state
-                  .submissionListingLayout,
+          return SliverList(
+            delegate: SliverChildBuilderDelegate(
+              (BuildContext context, int index) {
+                return index >= state.submissions.length
+                    ? LoadingIndicator()
+                    : _buildSubmission(submission: state.submissions[index]);
+              },
+              childCount: state.outOfSubmissions
+                  ? state.submissions.length
+                  : state.submissions.length + 1,
             ),
+//            physics: AlwaysScrollableScrollPhysics(),
+//            padding: EdgeInsets.all(0.0),
+//            cacheExtent: 500.0,
+//            controller: _listViewController,
+//            separatorBuilder: (context, index) => SubmissionSeperator(
+//              submissionListingLayout: BlocProvider.of<RedditPaneBloc>(context)
+//                  .state
+//                  .submissionListingLayout,
+//            ),
           );
         } else {
           return null;

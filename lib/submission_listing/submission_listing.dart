@@ -29,6 +29,8 @@ class SubmissionListing extends StatelessWidget {
         return SubmissionListingCompact(submission: this.submission);
       case SubmissionListingLayout.expanded:
         return SubmissionListingExpanded(submission: this.submission);
+      default:
+        return null;
     }
   }
 }

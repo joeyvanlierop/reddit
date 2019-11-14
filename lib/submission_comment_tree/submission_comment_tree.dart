@@ -3,11 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:reddit/submission_comment/submission_comment.dart';
 
 class SubmissionCommentTree extends StatefulWidget {
-  final CommentForest topLevelComments;
+  final CommentForest commentForest;
 
   const SubmissionCommentTree({
     Key key,
-    @required this.topLevelComments,
+    @required this.commentForest,
   }) : super(key: key);
 
   @override
@@ -15,18 +15,18 @@ class SubmissionCommentTree extends StatefulWidget {
 }
 
 class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
-  List<Comment> commentTree;
+  List<Comment> commentList;
 
   @override
   void initState() {
     super.initState();
 
-    commentTree = _buildCommentTree();
+    commentList = _buildCommentTree();
   }
 
   List<Comment> _buildCommentTree({CommentForest commentForest}) {
     List<Comment> comments = [];
-    commentForest ??= widget.topLevelComments;
+    commentForest ??= widget.commentForest;
 
     commentForest.comments.forEach((comment) {
       if (comment is Comment) {
@@ -43,14 +43,24 @@ class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      primary: false,
-      shrinkWrap: true,
-      itemCount: commentTree.length,
-      itemBuilder: (context, index) {
-        return SubmissionComment(comment: commentTree[index]);
-      },
+    return SliverList(
+      delegate: SliverChildBuilderDelegate(
+        (BuildContext context, int index) {
+          return SubmissionComment(
+            comment: commentList[index],
+          );
+        },
+        childCount: commentList.length,
+      ),
     );
+//    return ListView.builder(
+//      physics: NeverScrollableScrollPhysics(),
+//      primary: false,
+//      shrinkWrap: true,
+//      itemCount: commentTree.length,
+//      itemBuilder: (context, index) {
+//        return SubmissionComment(comment: commentTree[index]);
+//      },
+//    );
   }
 }
