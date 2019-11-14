@@ -13,7 +13,7 @@ class RedditPaneState extends Equatable {
 
   @override
   List<Object> get props => [
-        this.submission,
-        this.submissionListingLayout,
+        submission,
+        submissionListingLayout,
       ];
 }

@@ -72,7 +72,7 @@ class SubmissionListingFlair extends StatelessWidget {
 
     return IgnorePointer(
       child: Padding(
-        padding: this.margin,
+        padding: margin,
         child: Container(
           decoration: BoxDecoration(
             color: flairStyle[flairType].color,

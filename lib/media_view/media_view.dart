@@ -29,7 +29,7 @@ class _MediaViewContainerState extends State<MediaViewContainer>
   void initState() {
     super.initState();
 
-    animationController = new AnimationController(
+    animationController = AnimationController(
       duration: Duration(milliseconds: 1000),
       vsync: this,
     )..addListener(() {
@@ -109,11 +109,10 @@ class MediaView extends StatelessWidget {
         width: double.infinity,
         child: GestureDetector(
           child: Hero(
-            tag: this.submission.fullname,
+            tag: submission.fullname,
             child: CachedNetworkImage(
-              imageUrl:
-                  this.submission.preview.last.resolutions.last.url.toString(),
-              placeholder: (context, string) => this.thumbnailImage,
+              imageUrl: submission.preview.last.resolutions.last.url.toString(),
+              placeholder: (context, string) => thumbnailImage,
               fit: BoxFit.cover,
             ),
           ),

@@ -45,10 +45,10 @@ class _SubmissionListingThumbnailState
     }
 
     return Container(
-      width: this.widget.width ?? null,
-      height: this.widget.width ?? null,
+      width: widget.width ?? null,
+      height: widget.width ?? null,
       child: Padding(
-        padding: this.widget.padding ?? EdgeInsets.zero,
+        padding: widget.padding ?? EdgeInsets.zero,
         child: _Thumbnail(
           submission: widget.submission,
           targetWidth: widget.targetWidth,
@@ -78,11 +78,11 @@ class _Thumbnail extends StatelessWidget {
         .preview
         .first
         .resolutions
-        .firstWhere((res) => res.width >= this.targetWidth,
-            orElse: () => this.submission.preview.first.resolutions.last);
+        .firstWhere((res) => res.width >= targetWidth,
+            orElse: () => submission.preview.first.resolutions.last);
 
     ThumbnailImage thumbnailImage = ThumbnailImage(
-      submission: this.submission,
+      submission: submission,
       previewImage: previewImage,
     );
 
@@ -90,10 +90,10 @@ class _Thumbnail extends StatelessWidget {
       aspectRatio: previewImage.width / previewImage.height,
       child: Material(
         color: Colors.transparent,
-        borderRadius: this.borderRadius ?? EdgeInsets.zero,
+        borderRadius: borderRadius ?? EdgeInsets.zero,
         clipBehavior: Clip.hardEdge,
         child: Hero(
-          tag: this.submission.fullname,
+          tag: submission.fullname,
           child: Stack(
             children: [
               Positioned.fill(
@@ -107,7 +107,7 @@ class _Thumbnail extends StatelessWidget {
                     onTap: () => Navigator.of(context).push(
                       BlurPageRoute(
                         builder: (context) => MediaViewContainer(
-                          submission: this.submission,
+                          submission: submission,
                           thumbnailImage: thumbnailImage,
                         ),
                       ),
@@ -139,7 +139,7 @@ class ThumbnailImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return CachedNetworkImage(
       imageUrl: _getImage(),
-      fit: this.fit,
+      fit: fit,
     );
   }
 
@@ -147,7 +147,7 @@ class ThumbnailImage extends StatelessWidget {
 //    return this.submission.url.toString().endsWith('.gif')
 //        ? this.submission.url.toString()
 //        : this.previewImage.url.toString();
-    return this.previewImage.url.toString();
+    return previewImage.url.toString();
   }
 }
 
@@ -156,7 +156,7 @@ class _NsfwFilter extends StatelessWidget {
   Widget build(BuildContext context) {
     return ClipRect(
       child: BackdropFilter(
-        filter: new ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
+        filter: ImageFilter.blur(sigmaX: 20.0, sigmaY: 20.0),
         child: Container(
           color: Colors.red.withOpacity(0.1),
         ),

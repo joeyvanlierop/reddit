@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 import 'package:reddit/ui/text_icon.dart';
 
 // TODO: Improve and globalize the number format
-final NumberFormat scoreFormat = new NumberFormat.compact();
+final NumberFormat scoreFormat = NumberFormat.compact();
 
 class SubmissionListingSubtitle extends StatelessWidget {
   final Submission submission;
@@ -27,9 +27,9 @@ class SubmissionListingSubtitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: this.padding,
+      padding: padding,
       child: Wrap(
-        direction: this.direction ?? Axis.horizontal,
+        direction: direction ?? Axis.horizontal,
         spacing: itemSpacing,
         runSpacing: rowSpacing,
         children: <Widget>[
@@ -37,7 +37,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
           InkWell(
             onTap: () => print(submission.subreddit.displayName),
             child: Text(
-              this.submission.subreddit.displayName,
+              submission.subreddit.displayName,
               style: Theme.of(context)
                   .textTheme
                   .subtitle
@@ -50,16 +50,16 @@ class SubmissionListingSubtitle extends StatelessWidget {
               spacing: itemSpacing,
               children: <Widget>[
                 TextIcon(
-                  text: scoreFormat.format(this.submission.score),
+                  text: scoreFormat.format(submission.score),
                   icon: Icons.arrow_upward,
                 ),
                 TextIcon(
-                  text: this.submission.numComments.toString(),
+                  text: submission.numComments.toString(),
                   icon: Icons.chat_bubble_outline,
                 ),
                 TextIcon(
                   text: DateTime.now()
-                          .difference(this.submission.createdUtc)
+                          .difference(submission.createdUtc)
                           .inHours
                           .toString() +
                       'h',
@@ -80,10 +80,10 @@ class SubmissionListingSubtitle extends StatelessWidget {
   }) {
     List<Widget> awardItems = [];
 
-    if (this.submission.silver != null) {
+    if (submission.silver != null) {
       awardItems.add(
         TextIcon(
-          text: this.submission.silver.toString(),
+          text: submission.silver.toString(),
           icon: Icons.stars,
           style: Theme.of(context)
               .textTheme
@@ -93,10 +93,10 @@ class SubmissionListingSubtitle extends StatelessWidget {
       );
     }
 
-    if (this.submission.gold != null) {
+    if (submission.gold != null) {
       awardItems.add(
         TextIcon(
-          text: this.submission.gold.toString(),
+          text: submission.gold.toString(),
           icon: Icons.stars,
           style: Theme.of(context)
               .textTheme
@@ -106,10 +106,10 @@ class SubmissionListingSubtitle extends StatelessWidget {
       );
     }
 
-    if (this.submission.platinum != null) {
+    if (submission.platinum != null) {
       awardItems.add(
         TextIcon(
-          text: this.submission.platinum.toString(),
+          text: submission.platinum.toString(),
           icon: Icons.stars,
           style: Theme.of(context)
               .textTheme
@@ -119,7 +119,7 @@ class SubmissionListingSubtitle extends StatelessWidget {
       );
     }
 
-    return new Wrap(
+    return Wrap(
       spacing: spacing ?? 0,
       children: <Widget>[
         ...awardItems,

@@ -47,15 +47,15 @@ class ListSeparator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: this.padding ?? EdgeInsets.all(0.0),
+      padding: padding ?? EdgeInsets.all(0.0),
       child: SizedBox(
         child: Center(
           child: Container(
             decoration: BoxDecoration(
               border: Border(
                 bottom: BorderSide(
-                  color: this.color ?? Theme.of(context).dividerColor,
-                  width: this.thickness ?? 1.0,
+                  color: color ?? Theme.of(context).dividerColor,
+                  width: thickness ?? 1.0,
                 ),
               ),
             ),

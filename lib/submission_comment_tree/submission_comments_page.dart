@@ -21,7 +21,7 @@ class SubmissionCommentsPage extends StatelessWidget {
           SliverSafeArea(
             sliver: SliverToBoxAdapter(
               child: SubmissionListingHeader(
-                submission: this.submission,
+                submission: submission,
               ),
             ),
           ),
@@ -40,31 +40,11 @@ class SubmissionCommentsPage extends StatelessWidget {
           ),
         ],
       ),
-//          Column(
-//            crossAxisAlignment: CrossAxisAlignment.start,
-//            children: <Widget>[
-//              SubmissionListingHeader(
-//                submission: this.submission,
-//              ),
-//              FutureBuilder<CommentForest>(
-//                future: _fetchComments(),
-//                builder: (context, snapshot) {
-//                  switch (snapshot.connectionState) {
-//                    case ConnectionState.done:
-//                      return SubmissionCommentTree(
-//                          topLevelComments: snapshot.data);
-//                    default:
-//                      return LoadingIndicator();
-//                  }
-//                },
-//              ),
-//            ],
-//          ),
     );
   }
 
   Future<CommentForest> _fetchComments() async {
-    return await this.submission.refreshComments();
+    return await submission.refreshComments();
   }
 }
 

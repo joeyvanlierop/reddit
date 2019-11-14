@@ -30,7 +30,7 @@ class SubmissionListingCompact extends StatelessWidget {
               onTap: () {
                 BlocProvider.of<RedditPaneBloc>(context)
                     .add(SetRedditPaneSubmission(
-                  submission: this.submission,
+                  submission: submission,
                 ));
 
                 return RedditPane.pageController.animateToPage(1,
@@ -48,44 +48,44 @@ class SubmissionListingCompact extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
                       SubmissionListingTitle(
-                        submission: this.submission,
-                        padding: EdgeInsets.only(bottom: this.spacing ?? 0),
+                        submission: submission,
+                        padding: EdgeInsets.only(bottom: spacing ?? 0),
                       ),
                       Wrap(
                         spacing: 10.0,
                         children: <Widget>[
                           if (submission.linkFlairText != null)
                             SubmissionListingFlair(
-                              submission: this.submission,
+                              submission: submission,
                               flairType: FlairType.linkFlair,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: this.spacing ?? 0),
+                              margin:
+                                  EdgeInsets.symmetric(vertical: spacing ?? 0),
                               padding: EdgeInsets.all(4.0),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                           if (submission.over18)
                             SubmissionListingFlair(
-                              submission: this.submission,
+                              submission: submission,
                               flairType: FlairType.nsfwFlair,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: this.spacing ?? 0),
+                              margin:
+                                  EdgeInsets.symmetric(vertical: spacing ?? 0),
                               padding: EdgeInsets.all(4.0),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                           if (submission.spoiler)
                             SubmissionListingFlair(
-                              submission: this.submission,
+                              submission: submission,
                               flairType: FlairType.spoilerFlair,
-                              margin: EdgeInsets.symmetric(
-                                  vertical: this.spacing ?? 0),
+                              margin:
+                                  EdgeInsets.symmetric(vertical: spacing ?? 0),
                               padding: EdgeInsets.all(4.0),
                               borderRadius: BorderRadius.circular(5.0),
                             ),
                         ],
                       ),
                       SubmissionListingSubtitle(
-                        submission: this.submission,
-                        padding: EdgeInsets.only(top: this.spacing ?? 0),
+                        submission: submission,
+                        padding: EdgeInsets.only(top: spacing ?? 0),
                       ),
                     ],
                   ),
@@ -94,7 +94,7 @@ class SubmissionListingCompact extends StatelessWidget {
                   width: 16.0,
                 ),
                 SubmissionListingThumbnail(
-                  submission: this.submission,
+                  submission: submission,
                   targetWidth: 70.0,
                   width: 70.0,
                   height: 70.0,

@@ -33,33 +33,33 @@ class SubmissionListingExpanded extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 SubmissionListingTitle(
-                  submission: this.submission,
-                  padding: EdgeInsets.only(bottom: this.spacing ?? 0),
+                  submission: submission,
+                  padding: EdgeInsets.only(bottom: spacing ?? 0),
                 ),
                 SubmissionListingFlair(
-                  submission: this.submission,
+                  submission: submission,
                   flairType: FlairType.linkFlair,
-                  margin: EdgeInsets.symmetric(vertical: this.spacing ?? 0),
+                  margin: EdgeInsets.symmetric(vertical: spacing ?? 0),
                   padding: EdgeInsets.all(4.0),
                   borderRadius: BorderRadius.circular(5.0),
                 ),
                 SubmissionListingThumbnail(
-                  submission: this.submission,
+                  submission: submission,
                   targetWidth: MediaQuery.of(context).size.width,
                   borderRadius: BorderRadius.circular(10.0),
-                  padding: EdgeInsets.symmetric(vertical: this.spacing ?? 0),
+                  padding: EdgeInsets.symmetric(vertical: spacing ?? 0),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: this.spacing ?? 0),
+                  padding: EdgeInsets.only(top: spacing ?? 0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
                       SubmissionListingSubtitle(
-                        submission: this.submission,
+                        submission: submission,
                         direction: Axis.vertical,
                       ),
                       SubmissionListingActionButtons(
-                        submission: this.submission,
+                        submission: submission,
                       ),
                     ],
                   ),

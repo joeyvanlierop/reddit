@@ -12,19 +12,19 @@ abstract class RedditPaneEvent extends Equatable {
 class SetRedditPaneSubmission extends RedditPaneEvent {
   final Submission submission;
 
-  SetRedditPaneSubmission({this.submission});
+  const SetRedditPaneSubmission({this.submission});
 
   @override
-  List<Object> get props => [this.submission];
+  List<Object> get props => [submission];
 }
 
 class SetRedditPaneListingLayout extends RedditPaneEvent {
   final SubmissionListingLayout submissionListingLayout;
 
-  SetRedditPaneListingLayout({this.submissionListingLayout});
+  const SetRedditPaneListingLayout({this.submissionListingLayout});
 
   @override
-  List<Object> get props => [this.submissionListingLayout];
+  List<Object> get props => [submissionListingLayout];
 }
 
 class SwapRedditPaneListingLayout extends RedditPaneEvent {}

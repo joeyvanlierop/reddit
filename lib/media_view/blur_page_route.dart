@@ -33,7 +33,7 @@ class BlurPageRoute extends PageRoute<void> {
   Widget buildTransitions(BuildContext context, Animation<double> animation,
       Animation<double> secondaryAnimation, Widget child) {
     return _BlurPageTransition(
-      animation: new Tween<double>(
+      animation: Tween<double>(
         begin: 0.0,
         end: 10.0,
       ).animate(animation),
@@ -71,11 +71,11 @@ class _BlurPageTransition extends AnimatedWidget {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
-      filter: new ImageFilter.blur(
+      filter: ImageFilter.blur(
         sigmaX: animation.value,
         sigmaY: animation.value,
       ),
-      child: this.child,
+      child: child,
     );
   }
 }

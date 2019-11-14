@@ -33,8 +33,8 @@ class _SubmissionCommentState extends State<SubmissionComment> {
   void initState() {
     super.initState();
 
-    this.expanded = true;
-    this.depth = widget.comment.depth;
+    expanded = true;
+    depth = widget.comment.depth;
   }
 
   @override

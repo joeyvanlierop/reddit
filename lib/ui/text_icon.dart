@@ -22,17 +22,17 @@ class TextIcon extends StatelessWidget {
         spacing: spacing,
         children: <Widget>[
           Icon(
-            this.icon,
-            size: this.style != null
-                ? this.style.fontSize
+            icon,
+            size: style != null
+                ? style.fontSize
                 : Theme.of(context).textTheme.subtitle.fontSize,
-            color: this.style != null
-                ? this.style.color
+            color: style != null
+                ? style.color
                 : Theme.of(context).textTheme.subtitle.color,
           ),
           Text(
-            this.text,
-            style: this.style ?? Theme.of(context).textTheme.subtitle,
+            text,
+            style: style ?? Theme.of(context).textTheme.subtitle,
           ),
         ],
       ),

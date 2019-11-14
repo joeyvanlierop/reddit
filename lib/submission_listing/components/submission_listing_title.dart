@@ -17,9 +17,9 @@ class SubmissionListingTitle extends StatelessWidget {
   Widget build(BuildContext context) {
     return IgnorePointer(
       child: Padding(
-        padding: this.padding ?? EdgeInsets.zero,
+        padding: padding ?? EdgeInsets.zero,
         child: Text(
-          this.submission.title,
+          submission.title,
           style: _stylizeTitle(context),
         ),
       ),
@@ -27,12 +27,12 @@ class SubmissionListingTitle extends StatelessWidget {
   }
 
   TextStyle _stylizeTitle(BuildContext context) {
-    if (this.submission.stickied) {
-      return this.style != null
-          ? this.style.copyWith(color: Colors.green)
+    if (submission.stickied) {
+      return style != null
+          ? style.copyWith(color: Colors.green)
           : Theme.of(context).textTheme.subhead.copyWith(color: Colors.green);
     } else {
-      return this.style ?? Theme.of(context).textTheme.subhead;
+      return style ?? Theme.of(context).textTheme.subhead;
     }
   }
 }

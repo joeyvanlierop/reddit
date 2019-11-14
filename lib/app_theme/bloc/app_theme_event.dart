@@ -14,7 +14,7 @@ class SetAppThemeEvent extends AppThemeEvent {
   SetAppThemeEvent({this.appTheme});
 
   @override
-  List<Object> get props => [this.appTheme];
+  List<Object> get props => [appTheme];
 }
 
 class SwapAppThemeEvent extends AppThemeEvent {}

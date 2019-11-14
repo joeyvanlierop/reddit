@@ -6,7 +6,7 @@ import 'package:reddit/submission_list/submission_list_page.dart';
 import 'bloc/bloc.dart';
 
 class RedditPane extends StatelessWidget {
-  static PageController pageController = new PageController();
+  static PageController pageController = PageController();
 
   final String subreddit;
   final int limit;
@@ -26,8 +26,8 @@ class RedditPane extends StatelessWidget {
           controller: pageController,
           children: <Widget>[
             SubmissionListPage(
-              subreddit: this.subreddit,
-              limit: this.limit,
+              subreddit: subreddit,
+              limit: limit,
             ),
             SubmissionCommentsPage(
               submission: state.submission,

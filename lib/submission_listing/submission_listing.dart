@@ -26,9 +26,9 @@ class SubmissionListing extends StatelessWidget {
   Widget _generateSubmissionListing() {
     switch (submissionListingLayout) {
       case SubmissionListingLayout.compact:
-        return SubmissionListingCompact(submission: this.submission);
+        return SubmissionListingCompact(submission: submission);
       case SubmissionListingLayout.expanded:
-        return SubmissionListingExpanded(submission: this.submission);
+        return SubmissionListingExpanded(submission: submission);
       default:
         return null;
     }

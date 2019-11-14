@@ -10,6 +10,7 @@ import 'bloc/bloc.dart';
 class SubmissionListPage extends StatefulWidget {
   final String subreddit;
   final int limit;
+  final double scrollThreshold = 5000.0;
 
   const SubmissionListPage({
     Key key,
@@ -25,65 +26,74 @@ class _SubmissionListPageState extends State<SubmissionListPage>
     with AutomaticKeepAliveClientMixin<SubmissionListPage> {
   @override
   bool get wantKeepAlive => true;
+  ScrollController scrollController;
+  SubmissionListBloc submissionListBloc;
+
+  @override
+  void initState() {
+    super.initState();
+
+    submissionListBloc = SubmissionListBloc(
+      subreddit: widget.subreddit,
+      limit: widget.limit,
+    )..add(Fetch());
+    scrollController = ScrollController();
+    scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    scrollController.dispose();
+  }
+
+  void _onScroll() {
+    final maxScroll = scrollController.position.maxScrollExtent;
+    final currentScroll = scrollController.position.pixels;
+
+    if (maxScroll - currentScroll <= widget.scrollThreshold) {
+      submissionListBloc.add(Fetch());
+    }
+  }
+
+  Widget _buildAppBar() {
+    return SliverAppBar(
+      floating: true,
+      snap: true,
+      pinned: false,
+      title: InkWell(
+        onDoubleTap: () => BlocProvider.of<RedditPaneBloc>(context)
+            .add(SwapRedditPaneListingLayout()),
+        onLongPress: () =>
+            BlocProvider.of<AppThemeBloc>(context).add(SwapAppThemeEvent()),
+        child: Center(
+          child: Text(
+            widget.subreddit,
+            style: TextStyle(
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     super.build(context);
 
-    return Scaffold(
-      body: CustomScrollView(
-        slivers: <Widget>[
-          SliverAppBar(
-            floating: true,
-            snap: true,
-            pinned: false,
-            title: InkWell(
-              onDoubleTap: () => BlocProvider.of<RedditPaneBloc>(context)
-                  .add(SwapRedditPaneListingLayout()),
-              onLongPress: () => BlocProvider.of<AppThemeBloc>(context)
-                  .add(SwapAppThemeEvent()),
-              child: Center(
-                child: Text(
-                  this.widget.subreddit,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ),
-          ),
-          BlocProvider(
-            builder: (context) => SubmissionListBloc(
-              subreddit: this.widget.subreddit,
-              limit: this.widget.limit,
-            )..add(Fetch()),
-            child: SubmissionListView(),
-          ),
-        ],
+    return BlocProvider<SubmissionListBloc>(
+      builder: (context) => submissionListBloc,
+      child: Scaffold(
+        body: CustomScrollView(
+          controller: scrollController,
+          slivers: <Widget>[
+            _buildAppBar(),
+            SubmissionListView(),
+          ],
+        ),
       ),
-//      appBar: AppBar(
-//        title: InkWell(
-//          onDoubleTap: () => BlocProvider.of<RedditPaneBloc>(context)
-//              .add(SwapRedditPaneListingLayout()),
-//          onLongPress: () =>
-//              BlocProvider.of<AppThemeBloc>(context).add(SwapAppThemeEvent()),
-//          child: Center(
-//            child: Text(
-//              this.widget.subreddit,
-//              style: TextStyle(
-//                fontWeight: FontWeight.w700,
-//              ),
-//            ),
-//          ),
-//        ),
-//      ),
-//      body: BlocProvider(
-//        builder: (context) => SubmissionListBloc(
-//          subreddit: this.widget.subreddit,
-//          limit: this.widget.limit,
-//        )..add(Fetch()),
-//        child: SubmissionListView(),
-//      ),
     );
   }
 }

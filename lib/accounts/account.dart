@@ -21,7 +21,7 @@ class Account {
 //  }
 
   Future<String> getDisplayName() async {
-    return RedditorRef(this.reddit).displayName;
+    return RedditorRef(reddit).displayName;
   }
 
   void save() {
@@ -29,6 +29,6 @@ class Account {
   }
 
   void restore() {
-    reddit = Reddit.restoreInstalledAuthenticatedInstance(this.credentials);
+    reddit = Reddit.restoreInstalledAuthenticatedInstance(credentials);
   }
 }

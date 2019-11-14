@@ -8,5 +8,5 @@ class AppThemeState extends Equatable {
   AppThemeState({@required this.themeData});
 
   @override
-  List<Object> get props => [this.themeData];
+  List<Object> get props => [themeData];
 }

@@ -29,7 +29,7 @@ class _SubmissionListingActionButtonsState
           iconData: Icons.arrow_upward,
           clickedColor: Colors.red,
           iconSize: 25.0,
-          currentVote: this.voteState,
+          currentVote: voteState,
           targetVote: VoteState.upvoted,
           callback: (vote) => _setVote(vote),
         ),
@@ -37,7 +37,7 @@ class _SubmissionListingActionButtonsState
           iconData: Icons.arrow_downward,
           clickedColor: Colors.blue,
           iconSize: 25.0,
-          currentVote: this.voteState,
+          currentVote: voteState,
           targetVote: VoteState.downvoted,
           callback: (vote) => _setVote(vote),
         ),
@@ -75,7 +75,7 @@ class SubmissionListingActionButton extends StatefulWidget {
   final VoteState currentVote;
   final VoteState targetVote;
 
-  SubmissionListingActionButton({
+  const SubmissionListingActionButton({
     @required this.iconData,
     this.iconSize,
     this.color,
@@ -95,7 +95,7 @@ class _SubmissionListingActionButtonState
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: new Icon(widget.iconData),
+      icon: Icon(widget.iconData),
       onPressed: () {
         if (widget.callback != null) {
           setState(() {

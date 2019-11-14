@@ -30,7 +30,7 @@ class AccountManager {
 
   static AccountManager getInstance() {
     if (_singleton == null) {
-      _singleton = new AccountManager._internal();
+      _singleton = AccountManager._internal();
     }
 
     return _singleton;
@@ -58,7 +58,7 @@ class AccountManager {
   }
 
   Future<Account> _createReadOnly() async {
-    return new Account(
+    return Account(
       reddit: await Reddit.createUntrustedReadOnlyInstance(
         clientId: 'GGkEILtme1YcQA',
         deviceId: 'sYbVcAcuOnXoyliTEprL',
@@ -96,7 +96,7 @@ class AccountManager {
   }
 
   void registerAccount(Reddit reddit) {
-    Account account = new Account(
+    Account account = Account(
       reddit: reddit,
     );
 
