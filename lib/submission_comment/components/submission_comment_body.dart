@@ -1,5 +1,6 @@
 import 'package:draw/draw.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class SubmissionCommentBody extends StatelessWidget {
   final Comment comment;
@@ -12,10 +13,11 @@ class SubmissionCommentBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text(
-        comment.body,
-        style:
-            Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
+      child: MarkdownBody(
+        data: comment.body,
+        onTapLink: (link) => print(link),
+//        style:
+//            Theme.of(context).textTheme.subtitle.copyWith(color: Colors.white),
       ),
     );
   }
