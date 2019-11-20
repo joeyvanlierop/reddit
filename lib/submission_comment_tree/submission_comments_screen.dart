@@ -3,10 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:reddit/submission_comment_tree/submission_comment_tree.dart';
 import 'package:reddit/submission_listing/layouts/submission_listing_header.dart';
 
-class SubmissionCommentsPage extends StatelessWidget {
+class SubmissionCommentsScreen extends StatelessWidget {
   final Submission submission;
 
-  const SubmissionCommentsPage({
+  const SubmissionCommentsScreen({
     Key key,
     @required this.submission,
   }) : super(key: key);
@@ -17,7 +17,6 @@ class SubmissionCommentsPage extends StatelessWidget {
       body: CustomScrollView(
         physics: AlwaysScrollableScrollPhysics(),
         slivers: <Widget>[
-          //Change to appbar style something
           SliverSafeArea(
             sliver: SliverToBoxAdapter(
               child: SubmissionListingHeader(

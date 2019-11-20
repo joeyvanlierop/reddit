@@ -12,8 +12,10 @@ class SubmissionListView extends StatefulWidget {
 }
 
 class _SubmissionListViewState extends State<SubmissionListView> {
-  Widget _buildSubmission(
-      {@required Submission submission, bool divider = true}) {
+  Widget _buildSubmission({
+    @required Submission submission,
+    bool divider = true,
+  }) {
     return Column(
       children: <Widget>[
         SubmissionListing(
@@ -52,23 +54,14 @@ class _SubmissionListViewState extends State<SubmissionListView> {
           return SliverList(
             delegate: SliverChildBuilderDelegate(
               (BuildContext context, int index) {
-                return index >= state.submissions.length
+                return index >= state.submissionList.length
                     ? LoadingIndicator()
-                    : _buildSubmission(submission: state.submissions[index]);
+                    : _buildSubmission(submission: state.submissionList[index]);
               },
               childCount: state.outOfSubmissions
-                  ? state.submissions.length
-                  : state.submissions.length + 1,
+                  ? state.submissionList.length
+                  : state.submissionList.length + 1,
             ),
-//            physics: AlwaysScrollableScrollPhysics(),
-//            padding: EdgeInsets.all(0.0),
-//            cacheExtent: 500.0,
-//            controller: _listViewController,
-//            separatorBuilder: (context, index) => SubmissionSeperator(
-//              submissionListingLayout: BlocProvider.of<RedditPaneBloc>(context)
-//                  .state
-//                  .submissionListingLayout,
-//            ),
           );
         } else {
           return null;

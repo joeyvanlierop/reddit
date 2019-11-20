@@ -2,28 +2,29 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:reddit/app_theme/bloc/bloc.dart';
 import 'package:reddit/reddit_pane/bloc/bloc.dart';
+import 'package:reddit/status_bar_style/bloc/bloc.dart';
 import 'package:reddit/submission_list/bloc/submission_list_bloc.dart';
 import 'package:reddit/submission_list/submission_list_view.dart';
 
 import 'bloc/bloc.dart';
 
-class SubmissionListPage extends StatefulWidget {
+class SubmissionListScreen extends StatefulWidget {
   final String subreddit;
   final int limit;
   final double scrollThreshold = 5000.0;
 
-  const SubmissionListPage({
+  const SubmissionListScreen({
     Key key,
     @required this.subreddit,
     this.limit = 25,
   }) : super(key: key);
 
   @override
-  _SubmissionListPageState createState() => _SubmissionListPageState();
+  _SubmissionListScreenState createState() => _SubmissionListScreenState();
 }
 
-class _SubmissionListPageState extends State<SubmissionListPage>
-    with AutomaticKeepAliveClientMixin<SubmissionListPage> {
+class _SubmissionListScreenState extends State<SubmissionListScreen>
+    with AutomaticKeepAliveClientMixin<SubmissionListScreen> {
   @override
   bool get wantKeepAlive => true;
   ScrollController scrollController;
@@ -65,8 +66,11 @@ class _SubmissionListPageState extends State<SubmissionListPage>
       title: InkWell(
         onDoubleTap: () => BlocProvider.of<RedditPaneBloc>(context)
             .add(SwapRedditPaneListingLayout()),
-        onLongPress: () =>
-            BlocProvider.of<AppThemeBloc>(context).add(SwapAppThemeEvent()),
+        onLongPress: () async {
+          BlocProvider.of<AppThemeBloc>(context).add(SwapAppThemeEvent());
+          BlocProvider.of<StatusBarStyleBloc>(context)
+              .add(SwapStatusBarStyleEvent());
+        },
         child: Center(
           child: Text(
             widget.subreddit,
@@ -87,6 +91,8 @@ class _SubmissionListPageState extends State<SubmissionListPage>
       builder: (context) => submissionListBloc,
       child: Scaffold(
         body: CustomScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          cacheExtent: 300,
           controller: scrollController,
           slivers: <Widget>[
             _buildAppBar(),

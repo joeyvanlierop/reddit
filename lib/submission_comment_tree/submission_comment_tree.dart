@@ -15,7 +15,7 @@ class SubmissionCommentTree extends StatefulWidget {
 }
 
 class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
-  List<Comment> commentList;
+  List<SubmissionComment> commentList;
 
   @override
   void initState() {
@@ -24,13 +24,15 @@ class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
     commentList = _buildCommentTree();
   }
 
-  List<Comment> _buildCommentTree({CommentForest commentForest}) {
-    List<Comment> comments = [];
+  List<SubmissionComment> _buildCommentTree({CommentForest commentForest}) {
+    List<SubmissionComment> comments = [];
     commentForest ??= widget.commentForest;
 
     commentForest.comments.forEach((comment) {
       if (comment is Comment) {
-        comments.add(comment);
+        comments.add(SubmissionComment(
+          comment: comment,
+        ));
 
         if (comment.replies != null) {
           comments.addAll(_buildCommentTree(commentForest: comment.replies));
@@ -46,9 +48,7 @@ class _SubmissionCommentTreeState extends State<SubmissionCommentTree> {
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (BuildContext context, int index) {
-          return SubmissionComment(
-            comment: commentList[index],
-          );
+          return commentList[index];
         },
         childCount: commentList.length,
       ),

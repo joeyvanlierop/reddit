@@ -2,14 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 enum StatusBarStyle {
-  light,
-  dark,
+  lightStyle,
+  darkStyle,
   transparent,
 }
 
 final statusBarStyle = {
-  StatusBarStyle.light: SystemUiOverlayStyle.light,
-  StatusBarStyle.dark: SystemUiOverlayStyle.dark,
+  StatusBarStyle.lightStyle: SystemUiOverlayStyle(statusBarColor: Colors.white),
+  StatusBarStyle.darkStyle:
+      SystemUiOverlayStyle(statusBarColor: Color.fromARGB(255, 22, 22, 23)),
   StatusBarStyle.transparent:
       SystemUiOverlayStyle(statusBarColor: Colors.transparent),
 };

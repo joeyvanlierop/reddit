@@ -21,11 +21,8 @@ class App extends StatelessWidget {
       providers: [
         BlocProvider<StatusBarStyleBloc>(
           builder: (BuildContext context) => StatusBarStyleBloc()
-            ..add(
-              SetStatusBarStyleEvent(
-                statusBarStyle: StatusBarStyle.transparent,
-              ),
-            ),
+            ..add(SetStatusBarStyleEvent(
+                statusBarStyle: StatusBarStyle.darkStyle)),
         ),
         BlocProvider<AppThemeBloc>(
           builder: (BuildContext context) => AppThemeBloc()
@@ -44,7 +41,9 @@ class App extends StatelessWidget {
           builder: (context, state) {
             return MaterialApp(
               theme: state.themeData,
-              home: RedditPane(subreddit: 'All',),
+              home: RedditPane(
+                subreddit: 'All',
+              ),
             );
           },
         ),

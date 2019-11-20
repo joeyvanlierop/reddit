@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:bloc/bloc.dart';
 import 'package:draw/draw.dart';
 import 'package:flutter/foundation.dart';
+import 'package:reddit/accounts/account.dart';
 import 'package:reddit/accounts/account_manager.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -42,27 +43,29 @@ class SubmissionListBloc
     if (event is Fetch) {
       print('Received fetch...');
       if (!_outOfSubmissions(currentState)) {
+        print('Fetching posts...');
+
         if (currentState is ListUninitialized) {
-          final List<Submission> submissions = await _fetchSubmissions();
+          final List<Submission> submissionList = await _fetchSubmissions();
+
           yield ListLoaded(
-            submissions: submissions,
+            submissionList: submissionList,
             outOfSubmissions: false,
           );
         } else if (currentState is ListLoaded) {
-          print('Fetching posts...');
-          final List<Submission> submissions = await _fetchSubmissions(
-            after: currentState.submissions.last.fullname,
+          final List<Submission> submissionList = await _fetchSubmissions(
+            after: currentState.submissionList.last.fullname,
           );
-          print('Fetched posts...');
-          yield submissions.isEmpty
+
+          yield submissionList.isEmpty
               ? currentState.copyWith(
                   outOfSubmissions: true,
                 )
               : ListLoaded(
-                  submissions: currentState.submissions + submissions,
+                  submissionList: currentState.submissionList + submissionList,
                   outOfSubmissions: false,
                 );
-          print(currentState.submissions.length);
+          print(currentState.submissionList.length);
         }
       }
     }
@@ -73,16 +76,15 @@ class SubmissionListBloc
   }
 
   Future<List<Submission>> _fetchSubmissions({String after}) async {
-    return await AccountManager.getInstance()
-        .currentAccount()
-        .then((account) => account.reddit
-            .subreddit(this.subreddit)
-            .hot(
-              after: after,
+    final Account account = await AccountManager.getInstance().currentAccount();
+    final Stream<UserContent> submissionsStream =
+        account.reddit.subreddit(subreddit).hot(
               limit: limit,
-            )
-            .toList()
-            .then((submissions) => submissions.cast<Submission>()))
-        .catchError((error) => Future.error(error));
+              after: after,
+            );
+    final List<Submission> submissionList =
+        await submissionsStream.cast<Submission>().toList();
+
+    return submissionList;
   }
 }

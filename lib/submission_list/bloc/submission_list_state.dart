@@ -15,26 +15,26 @@ class ListUninitialized extends SubmissionListState {}
 class ListError extends SubmissionListState {}
 
 class ListLoaded extends SubmissionListState {
-  final List<Submission> submissions;
+  final List<Submission> submissionList;
   final bool outOfSubmissions;
 
   const ListLoaded({
-    this.submissions,
+    this.submissionList,
     this.outOfSubmissions,
   });
 
   @override
   List<Object> get props => [
-        submissions,
+        submissionList,
         outOfSubmissions,
       ];
 
   ListLoaded copyWith({
-    List<Submission> submissions,
+    List<Submission> submissionList,
     bool outOfSubmissions,
   }) {
     return ListLoaded(
-      submissions: submissions ?? this.submissions,
+      submissionList: submissionList ?? this.submissionList,
       outOfSubmissions: outOfSubmissions ?? this.outOfSubmissions,
     );
   }
